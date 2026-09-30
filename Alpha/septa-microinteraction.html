@@ -65,6 +65,10 @@ section:nth-of-type(even) .card{background:var(--bg)}
 .card h3{margin:0 0 6px;font-size:1.1rem}
 .card p,.card ul{margin:0}
 .card ul{padding-left:1.2em}
+.video-block{margin:20px 0 0;max-width:820px}
+.video-block video{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#000;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.metro-pair{display:grid;grid-template-columns:repeat(2,minmax(0,auto));gap:16px;align-items:start;margin-top:24px;max-width:100%}
+.metro-pair img{display:block;width:auto;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:var(--card);object-fit:contain}
 .ex{background:var(--sky);border-radius:8px;padding:16px 18px;margin-top:24px;max-width:62ch}
 .ex strong{color:var(--blue)}
 .change{font-weight:700;font-size:1.15rem}
@@ -124,6 +128,12 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
       <div class="card"><h3>Open a favorite</h3><p>Open a saved route or stop to check the next departure.</p></div>
       <div class="card"><h3>Refresh</h3><p>Request the latest available information. The app can also update on its own as new transit data arrives.</p></div>
     </div>
+    <div class="video-block">
+      <video controls preload="metadata" playsinline>
+        <source src="build/find a route video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
     <div class="ex"><strong>Example:</strong> A rider waiting for the Route 21 bus opens the SEPTA app, selects a nearby stop, and taps the Route 21 arrival information. The app then shows the available departure and arrival details.</div>
   </div>
 </section>
@@ -158,6 +168,10 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
       <div class="card"><h3>Audio feedback</h3><p>There is generally no major audio component. Screen readers and other accessibility features can speak the information for riders who need them.</p></div>
     </div>
     <div class="note"><strong>Research finding:</strong> Reviews we researched show this is where the experience can become frustrating. Some riders have trouble understanding arrival times or telling whether information is truly real-time. That creates uncertainty instead of confidence.</div>
+    <div class="metro-pair" aria-label="Metro imagery">
+      <img src="build/metro line.jpg" alt="Metro line map">
+      <img src="build/metro.jpg" alt="Metro station image">
+    </div>
   </div>
 </section>
 
