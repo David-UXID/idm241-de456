@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SEPTA App Microinteraction: Real-Time Arrival Information</title>
+<title>SEPTA Schedules Microinteraction: Mode Buttons</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap">
 <style>
 :root{
@@ -69,6 +69,10 @@ section:nth-of-type(even) .card{background:var(--bg)}
 .video-block video{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#000;box-shadow:0 8px 20px rgba(0,0,0,.12)}
 .metro-pair{display:grid;grid-template-columns:repeat(2,minmax(0,auto));gap:16px;align-items:start;margin-top:24px;max-width:100%}
 .metro-pair img{display:block;width:auto;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:var(--card);object-fit:contain}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:24px}
+.shots figure{margin:0}
+.shots img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+.shots figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
 .ex{background:var(--sky);border-radius:8px;padding:16px 18px;margin-top:24px;max-width:62ch}
 .ex strong{color:var(--blue)}
 .change{font-weight:700;font-size:1.15rem}
@@ -86,173 +90,155 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <body>
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="logo" src="build/SEPTA.svg.webp" alt="" aria-hidden="true"> SEPTA App</div>
+    <div class="brand"><img class="logo" src="images/septa-logo.webp" alt="" aria-hidden="true"> SEPTA App</div>
     <nav aria-label="Sections">
-      <a href="#triggers">Triggers</a><a href="#rules">Rules</a><a href="#feedback">Feedback</a><a href="#modes">Loops &amp; modes</a><a href="#flow">Flow</a>
+      <a href="#locate">Locate it</a><a href="#triggers">Triggers</a><a href="#rules">Rules</a><a href="#feedback">Feedback</a><a href="#modes">Loops &amp; modes</a>
     </nav>
   </div>
   <div class="stripe"></div>
 </header>
 
 <main>
-<div class="hero">
-  <div class="wrap">
-    <div>
-      <span class="pill">Microinteraction case study</span>
-      <h1>Real-time arrival information</h1>
-      <p>The small moment when a rider asks one question: when is my ride coming? Try the Route 21 demo to see how the answer changes as conditions change.</p>
-    </div>
-    <div class="phone" role="region" aria-label="Interactive Route 21 arrival demo">
-      <div class="ph-head"><span>Stop: 21 Northbound</span><span id="clock">3:41 PM</span></div>
-      <div class="ph-body">
-        <div class="route"><span class="badge">21</span><div><strong>Penn's Landing</strong><small>Route 21 bus</small></div><span id="status" class="status s-sched" style="margin-left:auto">Scheduled</span></div>
-        <div id="alertbar" class="alertbar" hidden>Service alert: Route 21 is experiencing delays.</div>
-        <div class="big" id="big" aria-live="polite">3:45 PM</div>
-        <p class="sub" id="sub">Scheduled time. Live tracking is not available.</p>
-        <ul class="next" id="next"></ul>
-        <div class="tabs" id="tabs" role="group" aria-label="Choose a mode"></div>
-        <button class="btn" id="play" type="button">Play countdown</button>
-      </div>
-    </div>
-  </div>
+<div class="wrap" style="padding-top:16px">
+  <p>Public-facing interface: <a href="https://www.septa.org/schedules?mode=metro" target="_blank" rel="noopener noreferrer">https://www.septa.org/schedules?mode=metro</a></p>
 </div>
+<section id="locate">
+  <div class="wrap">
+    <h2>Locating the interaction</h2>
+    <p class="q">Where does a rider find the Schedules buttons on septa.org?</p>
+    <p>The interaction is the row of <strong>Schedules</strong> mode buttons. Riders click through them to pick the type of service they want a schedule for.</p>
+    <ol>
+      <li>Go to <a href="https://www.septa.org/" target="_blank" rel="noopener noreferrer">septa.org</a>, or open the Schedules page directly at <a href="https://www.septa.org/schedules?mode=metro" target="_blank" rel="noopener noreferrer">septa.org/schedules</a>.</li>
+      <li>From the home page, choose <strong>Schedules</strong> in the site navigation. On a phone, open the <em>Toggle navigation menu</em> button first.</li>
+      <li>On the Schedules page, find the page heading <strong>Schedules</strong> and the breadcrumb (Home &gt; Schedules).</li>
+      <li>Directly below the heading is a row of four buttons, one for each mode of transportation SEPTA publishes schedules for.</li>
+    </ol>
+    <div class="grid" style="margin-top:16px">
+      <div class="card"><h3>Metro</h3><p>Subway, Elevated, and Trolleys. Selected by default.</p></div>
+      <div class="card"><h3>Bus</h3><p>Bus route schedules.</p></div>
+      <div class="card"><h3>Regional Rail</h3><p>Regional Rail line schedules.</p></div>
+      <div class="card"><h3>SEPTA Access</h3><p>Formerly CCT.</p></div>
+    </div>
+    <div class="ex"><strong>Result:</strong> Selecting a button changes the panel below it to that mode's schedules, for example <em>Metro Schedules</em> with its list of lines.</div>
+  </div>
+</section>
 
 <section id="triggers">
   <div class="wrap">
     <h2>1. Triggers</h2>
     <p class="q">What event starts the microinteraction?</p>
-    <p>It begins when a rider wants to know when a SEPTA vehicle will arrive. This can happen in several ways:</p>
-    <div class="grid" style="margin-top:16px">
-      <div class="card"><h3>Select a stop</h3><p>Choose a bus, trolley, subway/Metro, or Regional Rail stop or station.</p></div>
-      <div class="card"><h3>Select a route</h3><p>Pick a route from the map, the schedule, or trip-planning results.</p></div>
-      <div class="card"><h3>Open a favorite</h3><p>Open a saved route or stop to check the next departure.</p></div>
-      <div class="card"><h3>Refresh</h3><p>Request the latest available information. The app can also update on its own as new transit data arrives.</p></div>
+    <p>The microinteraction starts when a rider wants a schedule for a particular kind of service and uses the mode buttons on the Schedules page to get it. It can be started by the rider (manual triggers) or by the page itself (system triggers).</p>
+    <h3 style="margin-top:20px">Rider-initiated triggers</h3>
+    <div class="grid" style="margin-top:12px">
+      <div class="card"><h3>Click a mode button</h3><p>On a desktop or laptop, the rider clicks <strong>Metro</strong>, <strong>Bus</strong>, <strong>Regional Rail</strong>, or <strong>SEPTA Access</strong>. This is the primary trigger.</p></div>
+      <div class="card"><h3>Tap a mode button</h3><p>On a phone or tablet, the rider taps one of the same buttons. The row sits directly under the "Schedules" heading, so it is visible without scrolling.</p></div>
+      <div class="card"><h3>Keyboard or assistive technology</h3><p>The buttons are exposed as a tab list. A rider using a keyboard or screen reader can move focus to a button and activate it.</p></div>
+      <div class="card"><h3>Click through several modes</h3><p>A rider unsure which mode they need often clicks one button after another, for example Metro, then Bus, then Regional Rail. Each click starts the interaction again.</p></div>
     </div>
-    <div class="video-block">
-      <video controls preload="metadata" playsinline>
-        <source src="build/find a route video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+    <h3 style="margin-top:28px">System-initiated triggers</h3>
+    <div class="grid" style="margin-top:12px">
+      <div class="card"><h3>Arriving on the page</h3><p>When the Schedules page loads from the home-page navigation or the Metro link, the <strong>Metro</strong> button is already selected and the "Metro Schedules" panel is showing. The rider's first decision is whether to stay on this default or switch.</p></div>
+      <div class="card"><h3>Opening a mode link directly</h3><p>Each click updates the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>). A rider who opens a saved or shared link such as <code>septa.org/schedules?mode=metro</code> lands in that mode without clicking.</p></div>
     </div>
-    <div class="ex"><strong>Example:</strong> A rider waiting for the Route 21 bus opens the SEPTA app, selects a nearby stop, and taps the Route 21 arrival information. The app then shows the available departure and arrival details.</div>
+    <div class="shots" aria-label="Schedules mode buttons screenshots">
+      <figure><img src="images/schedules-metro.png" alt="Schedules page with the Metro button selected, showing Metro Schedules"><figcaption>Metro selected (default)</figcaption></figure>
+      <figure><img src="images/schedules-bus.png" alt="Schedules page with the Bus button selected, showing Bus Schedules"><figcaption>Bus selected</figcaption></figure>
+      <figure><img src="images/schedules-regional-rail.png" alt="Schedules page with the Regional Rail button selected, showing Regional Rail Schedules"><figcaption>Regional Rail selected</figcaption></figure>
+      <figure><img src="images/schedules-septa-access.png" alt="Schedules page with the SEPTA Access button selected, showing SEPTA Access information"><figcaption>SEPTA Access selected</figcaption></figure>
+    </div>
+    <div class="ex"><strong>Example:</strong> A rider wants the schedule for a bus they take to work. They open septa.org/schedules and see Metro selected by default. They click <strong>Bus</strong>. The heading changes to "Bus Schedules", the address changes to <code>?mode=bus</code>, and the bus routes appear.</div>
   </div>
 </section>
-
 <section id="rules">
   <div class="wrap">
     <h2>2. Rules</h2>
     <p class="q">What rules determine how the microinteraction behaves?</p>
     <div class="grid">
-      <div class="card"><h3>Rule 1: Display the available arrival information</h3>
-        <p>After a rider selects a route or stop, the app shows upcoming departures for that service, using available SEPTA data. This can include:</p>
-        <ul><li>Route number and name</li><li>Destination</li><li>Scheduled departure or arrival time</li><li>Estimated arrival when real-time data exists</li><li>Multiple upcoming departures</li><li>Service or delay information</li></ul>
+      <div class="card"><h3>Rule 1: One mode is selected at a time</h3>
+        <p>The four buttons work as a single-choice set. Exactly one is active, and choosing another one deselects the previous one.</p>
+        <ul>
+          <li>The active button turns dark (black) with white text. The other three stay light gray.</li>
+          <li>Metro is active by default when the page opens.</li>
+          <li>Clicking the button that is already active changes nothing.</li>
+          <li>A rider cannot select two modes at once or clear the selection.</li>
+          <li>The rider's choice is reflected in the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>).</li>
+        </ul>
       </div>
-      <div class="card"><h3>Rule 2: Update the information when conditions change</h3>
-        <p>Arrival information changes as the vehicle nears the stop or as SEPTA data changes.</p>
-        <p class="change" style="margin:10px 0">3:45 PM → 3:48 PM → 3:51 PM</p>
-        <p>An arrival time is not static. Vehicle location, traffic, delays, and schedule changes can all move it.</p>
+      <div class="card"><h3>Rule 2: The schedule panel matches the selected mode</h3>
+        <p>Whichever button is active decides what appears directly below the row. The heading and the content both change to match it, while the buttons, the page banner, and the "Find a Route" box on the right stay where they are.</p>
+        <ul>
+          <li><strong>Metro:</strong> "Metro Schedules", a list of color-coded lines (Market-Frankford, Broad Street, Subway-Surface Trolleys, Route 15 Trolley, Media-Sharon Hill, Norristown High Speed). Some lines have an arrow to show or hide their routes.</li>
+          <li><strong>Bus:</strong> "Bus Schedules", a search box for bus routes, filter chips (All, Frequent, 1-48, 49-99, 100s-300s, 400-499, Lettered), and numbered route buttons. Red buttons mark Frequent Weekday Bus routes.</li>
+          <li><strong>Regional Rail:</strong> "Regional Rail Schedules", a two-column list of lines with three-letter codes (AIR, CHE, CHW, and so on).</li>
+          <li><strong>SEPTA Access:</strong> "SEPTA Access", a written description of the paratransit program, a Learn More button, and customer service contact details. It has no list of routes.</li>
+        </ul>
       </div>
     </div>
+    <div class="note"><strong>Why it matters:</strong> These two rules keep the choice simple. The rider always knows which mode they are viewing, and the content always confirms it.</div>
   </div>
 </section>
-
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
     <p class="q">What does the rider see, hear, or feel?</p>
     <div class="grid">
-      <div class="card"><h3>Visual feedback</h3><p>The primary feedback. On selecting a stop, the rider sees, for example, Route 21, Penn's Landing, 3:45 PM, 3:52 PM, 4:05 PM. They may also see:</p>
-        <ul><li>Route information</li><li>Arrival and departure times</li><li>Maps and vehicle locations</li><li>Service alerts</li><li>Refresh and favorite controls</li><li>Status or delay information</li></ul></div>
-      <div class="card"><h3>What the rider feels</h3><p>Ideally:</p>
-        <ul><li>Confidence about when the ride is coming</li><li>Awareness of delays or changes</li><li>Control over travel plans</li><li>Reassurance that the information is current</li></ul></div>
-      <div class="card"><h3>Audio feedback</h3><p>There is generally no major audio component. Screen readers and other accessibility features can speak the information for riders who need them.</p></div>
+      <div class="card"><h3>What the rider sees</h3><p>Visual feedback is the main response, and it appears immediately after a click or tap.</p>
+        <ul>
+          <li>The clicked button flips from light gray (with dark text) to near-black (with white text). This is the clearest sign that the choice registered.</li>
+          <li>The button that was active returns to light gray.</li>
+          <li>The heading below the row changes to match, for example "Metro Schedules" becomes "Bus Schedules".</li>
+          <li>The content under the heading is replaced: colored line bars, a route search with numbered buttons, a list of rail lines, or a text description.</li>
+          <li>The address bar updates to show the new mode.</li>
+          <li>The banner, the breadcrumb, and the "Find a Route" box on the right do not move, so the rider can tell only the schedule area changed.</li>
+        </ul></div>
+      <div class="card"><h3>What the rider hears</h3><p>The page makes no sounds of its own. There is no click tone or spoken confirmation.</p>
+        <p style="margin-top:8px">A rider using a screen reader hears the button name and whether it is selected (for example "Bus, tab, selected"), and can then read the new heading and content.</p></div>
+      <div class="card"><h3>What the rider feels</h3><p>There is no vibration or haptic response from the page. The physical feedback comes from the device itself:</p>
+        <ul>
+          <li>The press of the mouse button, the key, or the touchscreen.</li>
+          <li>The pointer changes to a hand when it is over a button, which signals that it can be clicked.</li>
+          <li>A quick, short color change (about 0.2 seconds) that feels responsive rather than abrupt.</li>
+        </ul>
+        <p style="margin-top:8px">Emotionally, the rider should feel oriented and in control: they know which mode they are in and that they can switch easily.</p></div>
     </div>
-    <div class="note"><strong>Research finding:</strong> Reviews we researched show this is where the experience can become frustrating. Some riders have trouble understanding arrival times or telling whether information is truly real-time. That creates uncertainty instead of confidence.</div>
-    <div class="metro-pair" aria-label="Metro imagery">
-      <img src="build/metro line.jpg" alt="Metro line map">
-      <img src="build/metro.jpg" alt="Metro station image">
+    <div class="note"><strong>Observation:</strong> On the live site, hovering over an inactive button does not change its color. Only the pointer changes, so a rider gets no visual preview before committing to a mode.</div>
+    <div class="shots" aria-label="Selected state in each mode">
+      <figure><img src="images/schedules-metro.png" alt="Metro button shown in the selected, dark state"><figcaption>Selected state: Metro</figcaption></figure>
+      <figure><img src="images/schedules-bus.png" alt="Bus button shown in the selected, dark state"><figcaption>Selected state: Bus</figcaption></figure>
     </div>
   </div>
 </section>
-
 <section id="modes">
   <div class="wrap">
     <h2>4. Loops &amp; modes</h2>
     <p class="q">What happens when the interaction repeats or conditions change?</p>
+    <p>These are the meta-rules. They do not change how a single click works (see Rules above). They describe what happens when the interaction repeats, what extra controls sit inside it, and how it adapts to different conditions.</p>
     <h3>Loops</h3>
     <div class="grid" style="margin-bottom:32px">
-      <div class="card"><h3>Loop 1: Arrival information keeps changing</h3><p>The interaction repeats as the vehicle approaches, and the rider can keep checking while they wait.</p><p class="change" style="margin-top:8px">10 min → 8 → 5 → 3 → 1 → Arriving</p></div>
-      <div class="card"><h3>Loop 2: Multiple vehicles</h3><p>When several vehicles serve a route, the app lists multiple arrivals. The rider selects the one they want.</p><p style="margin-top:8px">3:45 PM: 4 min<br>3:57 PM: 16 min<br>4:10 PM: 29 min</p></div>
+      <div class="card"><h3>Loop 1: Switching between modes</h3><p>The buttons never go away after a choice. The rider can click any of the four buttons again and again, in any order, as many times as they like, and the page never needs a reload.</p><p class="change" style="margin-top:8px">Metro → Bus → Regional Rail → SEPTA Access → Metro …</p></div>
+      <div class="card"><h3>Loop 2: Moving back through history</h3><p>Each mode change adds an entry to the browser history. I tested that the browser's Back button returns to the previous mode, with the matching button selected again. The rider can retrace their steps without clicking the buttons.</p></div>
+      <div class="card"><h3>Loop 3: Repeating items inside a mode</h3><p>Within a mode, the same element repeats as a list. Metro shows one colored bar per line, Bus shows a grid of numbered route buttons, and Regional Rail shows a two-column list of coded lines. The rider scans these items to find their own.</p></div>
+      <div class="card"><h3>Loop 4: Ending the loop</h3><p>The loop ends when the rider clicks a line, route, or the Learn More button. That choice leaves the mode buttons and opens a schedule or another page.</p></div>
+    </div>
+    <h3>Additional modules inside the interaction</h3>
+    <div class="grid" style="margin-bottom:32px">
+      <div class="card"><h3>Show/hide arrows (Metro)</h3><p>Some Metro lines have a small arrow beside them. Clicking it expands that line to list its routes, and clicking again collapses it. I confirmed it reports an expanded state.</p></div>
+      <div class="card"><h3>Route search and filter chips (Bus)</h3><p>Only the Bus mode adds a "Search for bus routes" box and a row of chips: All, Frequent, 1-48, 49-99, 100s-300s, 400-499, and Lettered. All is the starting chip. These narrow the long list of routes without leaving Bus mode.</p></div>
+      <div class="card"><h3>Frequent Weekday Bus key (Bus)</h3><p>A red key ("= Frequent Weekday Bus") explains that red route buttons are frequent weekday routes. Black buttons are the others.</p></div>
+      <div class="card"><h3>Find a Route / Find a Station / Plan Your Trip</h3><p>A second set of three tabs sits on the right of the page, with a search box. It is separate from the mode buttons and stays the same in every mode, so the rider can search directly instead of browsing.</p></div>
     </div>
     <h3>Modes</h3>
     <div class="grid modes">
-      <div class="card" style="--m:var(--muted)"><h3>Mode 1: Scheduled information</h3><p>Without live data, the rider mainly sees the schedule.</p><p class="change">Scheduled: 3:45 PM</p></div>
-      <div class="card" style="--m:var(--live)"><h3>Mode 2: Real-time information</h3><p>With live vehicle data, the app gives an estimate based on current conditions, which is more immediate than the schedule.</p><p class="change">4 min away</p></div>
-      <div class="card" style="--m:var(--late)"><h3>Mode 3: Delayed service</h3><p>A late vehicle changes the display. The rider may wait, choose another route, or change their departure time.</p><p class="change">8 min late<br>Estimated: 3:53 PM</p></div>
-      <div class="card" style="--m:var(--alert)"><h3>Mode 4: Service disruption</h3><p>For a significant disruption, a service alert accompanies the arrival time and can affect the whole trip.</p><p class="change">Route 21 is experiencing delays.</p></div>
-      <div class="card" style="--m:var(--blue)"><h3>Mode 5: Vehicle arrives</h3><p>The display changes again at the stop. After the vehicle departs, the interaction resets and the next vehicle becomes the primary arrival.</p><p class="change">3 min → 1 min → Arriving</p></div>
+      <div class="card" style="--m:var(--ink)"><h3>Mode 1: Metro (default)</h3><p>The page opens here when no mode is specified. The content is a list of color-coded lines.</p></div>
+      <div class="card" style="--m:var(--blue)"><h3>Mode 2: Bus</h3><p>A large set of routes, so the interaction adds search and filtering to help the rider find one.</p></div>
+      <div class="card" style="--m:var(--muted)"><h3>Mode 3: Regional Rail</h3><p>A shorter, simpler list of lines with three-letter codes. There is no search or filter.</p></div>
+      <div class="card" style="--m:var(--late)"><h3>Mode 4: SEPTA Access</h3><p>Not a list of routes. The panel changes to text, a button, and a phone number, because this is a reservation-based paratransit service.</p></div>
+      <div class="card" style="--m:var(--live)"><h3>Mode 5: Small screens</h3><p>The interaction adapts when the screen is narrow. At a phone-sized width, I saw the four buttons stack vertically, one per row, instead of sitting in a single row.</p></div>
     </div>
   </div>
 </section>
-
-<section id="flow">
-  <div class="wrap">
-    <h2>Complete microinteraction flow</h2>
-    <p class="q">The existing interaction from start to repeat.</p>
-    <ol class="flow">
-      <li>User selects stop or route</li>
-      <li>SEPTA displays upcoming arrivals</li>
-      <li>Real-time information becomes available</li>
-      <li>Arrival estimate updates</li>
-      <li>User monitors the countdown</li>
-      <li>Vehicle approaches</li>
-      <li>"Arriving" / arrival status</li>
-      <li>Vehicle arrives</li>
-      <li>Next scheduled vehicle becomes available</li>
-      <li class="loop">Interaction repeats</li>
-    </ol>
-  </div>
-</section>
 </main>
-<footer><div class="wrap">SEPTA app microinteraction case study: real-time arrival information. Route 21 times are examples.</div></footer>
+<footer><div class="wrap">SEPTA Schedules microinteraction case study: the transportation mode buttons.</div></footer>
 
-<script>
-(function(){
-  var modes={
-    sched:{label:"Scheduled",cls:"s-sched",big:"3:45 PM",sub:"Scheduled time. Live tracking is not available.",alert:false,next:[["3:52 PM","Scheduled"],["4:05 PM","Scheduled"]]},
-    live:{label:"Live",cls:"s-live",big:"4 min",sub:"Arriving at 3:45 PM based on live vehicle data.",alert:false,next:[["3:57 PM","16 min"],["4:10 PM","29 min"]]},
-    late:{label:"8 min late",cls:"s-late",big:"3:53 PM",sub:"Estimated arrival. Scheduled for 3:45 PM.",alert:false,next:[["4:00 PM","Estimated"],["4:12 PM","Estimated"]]},
-    alert:{label:"Disruption",cls:"s-alert",big:"3:53 PM",sub:"Delayed. Consider another route.",alert:true,next:[["4:02 PM","Delayed"],["4:15 PM","Delayed"]]},
-    arrive:{label:"Arriving",cls:"s-live",big:"Arriving",sub:"The vehicle is at the stop. Next: 3:57 PM.",alert:false,next:[["3:57 PM","16 min"],["4:10 PM","29 min"]],pulse:true}
-  };
-  var names={sched:"Scheduled",live:"Real-time",late:"Delayed",alert:"Disruption",arrive:"Arrives"};
-  var $=function(i){return document.getElementById(i)},timer=null;
-  function show(k){
-    var m=modes[k];
-    $("status").textContent=m.label;$("status").className="status "+m.cls;
-    $("big").textContent=m.big;$("big").className="big"+(m.pulse?" arriving":"");
-    $("sub").textContent=m.sub;$("alertbar").hidden=!m.alert;
-    $("next").innerHTML=m.next.map(function(n){return "<li><span>"+n[0]+"</span><span>"+n[1]+"</span></li>"}).join("");
-    Array.prototype.forEach.call($("tabs").children,function(b){b.setAttribute("aria-pressed",b.dataset.k===k)});
-  }
-  function stop(){if(timer){clearInterval(timer);timer=null}$("play").textContent="Play countdown"}
-  Object.keys(modes).forEach(function(k){
-    var b=document.createElement("button");b.type="button";b.dataset.k=k;b.textContent=names[k];
-    b.onclick=function(){stop();show(k)};$("tabs").appendChild(b);
-  });
-  $("play").onclick=function(){
-    if(timer){stop();return}
-    var seq=[10,8,5,3,1,0],i=0;$("play").textContent="Stop";
-    function tick(){
-      var n=seq[i];
-      show(n===0?"arrive":"live");
-      if(n>0){$("big").textContent=n+" min";$("sub").textContent="Live estimate. Updating as the bus approaches."}
-      i++;if(i>=seq.length){clearInterval(timer);timer=null;$("play").textContent="Play countdown"}
-    }
-    tick();timer=setInterval(tick,1300);
-  };
-  show("sched");
-})();
-</script>
 </body>
 </html>
