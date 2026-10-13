@@ -67,12 +67,6 @@ section:nth-of-type(even) .card{background:var(--bg)}
 .card ul{padding-left:1.2em}
 .video-block{margin:20px 0 0;max-width:820px}
 .video-block video{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#000;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-.metro-pair{display:grid;grid-template-columns:repeat(2,minmax(0,auto));gap:16px;align-items:start;margin-top:24px;max-width:100%}
-.metro-pair img{display:block;width:auto;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:var(--card);object-fit:contain}
-.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:24px}
-.shots figure{margin:0}
-.shots img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
-.shots figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
 .ex{background:var(--sky);border-radius:8px;padding:16px 18px;margin-top:24px;max-width:62ch}
 .ex strong{color:var(--blue)}
 .change{font-weight:700;font-size:1.15rem}
@@ -90,10 +84,11 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <body>
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="logo" src="images/septa-logo.webp" alt="" aria-hidden="true"> SEPTA App</div>
+    <div class="brand">SEPTA App</div>
     <nav aria-label="Sections">
       <a href="#locate">Locate it</a><a href="#triggers">Triggers</a><a href="#rules">Rules</a><a href="#feedback">Feedback</a><a href="#modes">Loops &amp; modes</a>
     </nav>
+    <img class="logo" src="images/septa-logo.webp" alt="SEPTA logo">
   </div>
   <div class="stripe"></div>
 </header>
@@ -126,27 +121,7 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="triggers">
   <div class="wrap">
     <h2>1. Triggers</h2>
-    <p class="q">What event starts the microinteraction?</p>
-    <p>The microinteraction starts when a rider wants a schedule for a particular kind of service and uses the mode buttons on the Schedules page to get it. It can be started by the rider (manual triggers) or by the page itself (system triggers).</p>
-    <h3 style="margin-top:20px">Rider-initiated triggers</h3>
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Click a mode button</h3><p>On a desktop or laptop, the rider clicks <strong>Metro</strong>, <strong>Bus</strong>, <strong>Regional Rail</strong>, or <strong>SEPTA Access</strong>. This is the primary trigger.</p></div>
-      <div class="card"><h3>Tap a mode button</h3><p>On a phone or tablet, the rider taps one of the same buttons. The row sits directly under the "Schedules" heading, so it is visible without scrolling.</p></div>
-      <div class="card"><h3>Keyboard or assistive technology</h3><p>The buttons are exposed as a tab list. A rider using a keyboard or screen reader can move focus to a button and activate it.</p></div>
-      <div class="card"><h3>Click through several modes</h3><p>A rider unsure which mode they need often clicks one button after another, for example Metro, then Bus, then Regional Rail. Each click starts the interaction again.</p></div>
-    </div>
-    <h3 style="margin-top:28px">System-initiated triggers</h3>
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Arriving on the page</h3><p>When the Schedules page loads from the home-page navigation or the Metro link, the <strong>Metro</strong> button is already selected and the "Metro Schedules" panel is showing. The rider's first decision is whether to stay on this default or switch.</p></div>
-      <div class="card"><h3>Opening a mode link directly</h3><p>Each click updates the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>). A rider who opens a saved or shared link such as <code>septa.org/schedules?mode=metro</code> lands in that mode without clicking.</p></div>
-    </div>
-    <div class="shots" aria-label="Schedules mode buttons screenshots">
-      <figure><img src="images/schedules-metro.png" alt="Schedules page with the Metro button selected, showing Metro Schedules"><figcaption>Metro selected (default)</figcaption></figure>
-      <figure><img src="images/schedules-bus.png" alt="Schedules page with the Bus button selected, showing Bus Schedules"><figcaption>Bus selected</figcaption></figure>
-      <figure><img src="images/schedules-regional-rail.png" alt="Schedules page with the Regional Rail button selected, showing Regional Rail Schedules"><figcaption>Regional Rail selected</figcaption></figure>
-      <figure><img src="images/schedules-septa-access.png" alt="Schedules page with the SEPTA Access button selected, showing SEPTA Access information"><figcaption>SEPTA Access selected</figcaption></figure>
-    </div>
-    <div class="ex"><strong>Example:</strong> A rider wants the schedule for a bus they take to work. They open septa.org/schedules and see Metro selected by default. They click <strong>Bus</strong>. The heading changes to "Bus Schedules", the address changes to <code>?mode=bus</code>, and the bus routes appear.</div>
+    <p class="q">Hover · Hover off · Click</p>
   </div>
 </section>
 <section id="rules">
@@ -155,85 +130,65 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <p class="q">What rules determine how the microinteraction behaves?</p>
     <div class="grid">
       <div class="card"><h3>Rule 1: One mode is selected at a time</h3>
-        <p>The four buttons work as a single-choice set. Exactly one is active, and choosing another one deselects the previous one.</p>
+        <p>Only one mode can be active at a time. Metro is selected by default.</p>
         <ul>
-          <li>The active button turns dark (black) with white text. The other three stay light gray.</li>
-          <li>Metro is active by default when the page opens.</li>
-          <li>Clicking the button that is already active changes nothing.</li>
-          <li>A rider cannot select two modes at once or clear the selection.</li>
-          <li>The rider's choice is reflected in the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>).</li>
+          <li>The active button is dark with white text; others are light gray.</li>
+          <li>Clicking another mode updates the selection and page address.</li>
+          <li>Clicking the active mode or clearing the selection has no effect.</li>
         </ul>
       </div>
       <div class="card"><h3>Rule 2: The schedule panel matches the selected mode</h3>
-        <p>Whichever button is active decides what appears directly below the row. The heading and the content both change to match it, while the buttons, the page banner, and the "Find a Route" box on the right stay where they are.</p>
+        <p>The selected mode changes the heading and panel below. The buttons, banner, and "Find a Route" box stay in place.</p>
         <ul>
-          <li><strong>Metro:</strong> "Metro Schedules", a list of color-coded lines (Market-Frankford, Broad Street, Subway-Surface Trolleys, Route 15 Trolley, Media-Sharon Hill, Norristown High Speed). Some lines have an arrow to show or hide their routes.</li>
-          <li><strong>Bus:</strong> "Bus Schedules", a search box for bus routes, filter chips (All, Frequent, 1-48, 49-99, 100s-300s, 400-499, Lettered), and numbered route buttons. Red buttons mark Frequent Weekday Bus routes.</li>
-          <li><strong>Regional Rail:</strong> "Regional Rail Schedules", a two-column list of lines with three-letter codes (AIR, CHE, CHW, and so on).</li>
-          <li><strong>SEPTA Access:</strong> "SEPTA Access", a written description of the paratransit program, a Learn More button, and customer service contact details. It has no list of routes.</li>
+          <li><strong>Metro:</strong> Color-coded line list.</li>
+          <li><strong>Bus:</strong> Searchable, filterable route list; red marks frequent weekday routes.</li>
+          <li><strong>Regional Rail:</strong> Two-column list of rail lines.</li>
+          <li><strong>SEPTA Access:</strong> Program details, Learn More button, and contact information.</li>
         </ul>
       </div>
+      <div class="card"><h3>Rule 3: Hovering over a button</h3>
+        <p>The pointer becomes a hand; the button's color and selection stay the same.</p>
+      </div>
+      <div class="card"><h3>Rule 4: Moving the pointer away</h3>
+        <p>The pointer returns to normal; the button and selected mode do not change.</p>
+      </div>
     </div>
-    <div class="note"><strong>Why it matters:</strong> These two rules keep the choice simple. The rider always knows which mode they are viewing, and the content always confirms it.</div>
+    <div class="note"><strong>Why it matters:</strong> The selected mode and schedule content stay clear and consistent.</div>
   </div>
 </section>
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
-    <p class="q">What does the rider see, hear, or feel?</p>
+    <p class="q">What does the user see, hear, or feel?</p>
     <div class="grid">
-      <div class="card"><h3>What the rider sees</h3><p>Visual feedback is the main response, and it appears immediately after a click or tap.</p>
+      <div class="card"><h3>What the user sees</h3><p>Hovering changes the pointer to a hand, but not the button. Moving away restores the pointer. Clicking changes the selected button and updates the schedule heading, panel, and page address.</p>
         <ul>
-          <li>The clicked button flips from light gray (with dark text) to near-black (with white text). This is the clearest sign that the choice registered.</li>
-          <li>The button that was active returns to light gray.</li>
-          <li>The heading below the row changes to match, for example "Metro Schedules" becomes "Bus Schedules".</li>
-          <li>The content under the heading is replaced: colored line bars, a route search with numbered buttons, a list of rail lines, or a text description.</li>
-          <li>The address bar updates to show the new mode.</li>
-          <li>The banner, the breadcrumb, and the "Find a Route" box on the right do not move, so the rider can tell only the schedule area changed.</li>
+          <li>The selected button is dark with white text; the others are light gray.</li>
+          <li>The banner, breadcrumb, and "Find a Route" box stay in place.</li>
         </ul></div>
-      <div class="card"><h3>What the rider hears</h3><p>The page makes no sounds of its own. There is no click tone or spoken confirmation.</p>
-        <p style="margin-top:8px">A rider using a screen reader hears the button name and whether it is selected (for example "Bus, tab, selected"), and can then read the new heading and content.</p></div>
-      <div class="card"><h3>What the rider feels</h3><p>There is no vibration or haptic response from the page. The physical feedback comes from the device itself:</p>
+      <div class="card"><h3>What the user hears</h3><p>The page makes no sound. A screen reader announces the button name and selected state, then reads the updated heading and content.</p></div>
+      <div class="card"><h3>What the user feels</h3><p>There is no haptic response. The user feels the physical mouse, key, or touchscreen press; the hand cursor indicates that a button is clickable.</p>
         <ul>
-          <li>The press of the mouse button, the key, or the touchscreen.</li>
-          <li>The pointer changes to a hand when it is over a button, which signals that it can be clicked.</li>
-          <li>A quick, short color change (about 0.2 seconds) that feels responsive rather than abrupt.</li>
+          <li>The changed selection and schedule content confirm the click.</li>
         </ul>
-        <p style="margin-top:8px">Emotionally, the rider should feel oriented and in control: they know which mode they are in and that they can switch easily.</p></div>
-    </div>
-    <div class="note"><strong>Observation:</strong> On the live site, hovering over an inactive button does not change its color. Only the pointer changes, so a rider gets no visual preview before committing to a mode.</div>
-    <div class="shots" aria-label="Selected state in each mode">
-      <figure><img src="images/schedules-metro.png" alt="Metro button shown in the selected, dark state"><figcaption>Selected state: Metro</figcaption></figure>
-      <figure><img src="images/schedules-bus.png" alt="Bus button shown in the selected, dark state"><figcaption>Selected state: Bus</figcaption></figure>
+      </div>
     </div>
   </div>
 </section>
 <section id="modes">
   <div class="wrap">
     <h2>4. Loops &amp; modes</h2>
-    <p class="q">What happens when the interaction repeats or conditions change?</p>
-    <p>These are the meta-rules. They do not change how a single click works (see Rules above). They describe what happens when the interaction repeats, what extra controls sit inside it, and how it adapts to different conditions.</p>
-    <h3>Loops</h3>
-    <div class="grid" style="margin-bottom:32px">
-      <div class="card"><h3>Loop 1: Switching between modes</h3><p>The buttons never go away after a choice. The rider can click any of the four buttons again and again, in any order, as many times as they like, and the page never needs a reload.</p><p class="change" style="margin-top:8px">Metro → Bus → Regional Rail → SEPTA Access → Metro …</p></div>
-      <div class="card"><h3>Loop 2: Moving back through history</h3><p>Each mode change adds an entry to the browser history. I tested that the browser's Back button returns to the previous mode, with the matching button selected again. The rider can retrace their steps without clicking the buttons.</p></div>
-      <div class="card"><h3>Loop 3: Repeating items inside a mode</h3><p>Within a mode, the same element repeats as a list. Metro shows one colored bar per line, Bus shows a grid of numbered route buttons, and Regional Rail shows a two-column list of coded lines. The rider scans these items to find their own.</p></div>
-      <div class="card"><h3>Loop 4: Ending the loop</h3><p>The loop ends when the rider clicks a line, route, or the Learn More button. That choice leaves the mode buttons and opens a schedule or another page.</p></div>
-    </div>
-    <h3>Additional modules inside the interaction</h3>
-    <div class="grid" style="margin-bottom:32px">
-      <div class="card"><h3>Show/hide arrows (Metro)</h3><p>Some Metro lines have a small arrow beside them. Clicking it expands that line to list its routes, and clicking again collapses it. I confirmed it reports an expanded state.</p></div>
-      <div class="card"><h3>Route search and filter chips (Bus)</h3><p>Only the Bus mode adds a "Search for bus routes" box and a row of chips: All, Frequent, 1-48, 49-99, 100s-300s, 400-499, and Lettered. All is the starting chip. These narrow the long list of routes without leaving Bus mode.</p></div>
-      <div class="card"><h3>Frequent Weekday Bus key (Bus)</h3><p>A red key ("= Frequent Weekday Bus") explains that red route buttons are frequent weekday routes. Black buttons are the others.</p></div>
-      <div class="card"><h3>Find a Route / Find a Station / Plan Your Trip</h3><p>A second set of three tabs sits on the right of the page, with a search box. It is separate from the mode buttons and stays the same in every mode, so the rider can search directly instead of browsing.</p></div>
-    </div>
-    <h3>Modes</h3>
-    <div class="grid modes">
-      <div class="card" style="--m:var(--ink)"><h3>Mode 1: Metro (default)</h3><p>The page opens here when no mode is specified. The content is a list of color-coded lines.</p></div>
-      <div class="card" style="--m:var(--blue)"><h3>Mode 2: Bus</h3><p>A large set of routes, so the interaction adds search and filtering to help the rider find one.</p></div>
-      <div class="card" style="--m:var(--muted)"><h3>Mode 3: Regional Rail</h3><p>A shorter, simpler list of lines with three-letter codes. There is no search or filter.</p></div>
-      <div class="card" style="--m:var(--late)"><h3>Mode 4: SEPTA Access</h3><p>Not a list of routes. The panel changes to text, a button, and a phone number, because this is a reservation-based paratransit service.</p></div>
-      <div class="card" style="--m:var(--live)"><h3>Mode 5: Small screens</h3><p>The interaction adapts when the screen is narrow. At a phone-sized width, I saw the four buttons stack vertically, one per row, instead of sitting in a single row.</p></div>
+    <p>None.</p>
+  </div>
+</section>
+<section id="video">
+  <div class="wrap">
+    <h2>Microinteraction video</h2>
+    <div class="video-block">
+      <video controls preload="metadata" aria-label="SEPTA schedules mode button microinteraction demonstration">
+        <source src="images/Microinteractionvideo.mp4" type="video/mp4">
+        Your browser does not support HTML video.
+      </video>
     </div>
   </div>
 </section>
