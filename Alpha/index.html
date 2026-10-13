@@ -149,20 +149,19 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
-    <p class="q">What does the user see, hear, or feel?</p>
+    <p class="q">What rules determine how the microinteraction behaves?</p>
     <div class="grid">
-      <div class="card"><h3>What the user sees</h3><p>Hovering changes the pointer to a hand, but not the button. Moving away restores the pointer. Clicking changes the selected button and updates the schedule heading, panel, and page address.</p>
-        <ul>
-          <li>The selected button is dark with white text; the others are light gray.</li>
-          <li>The banner, breadcrumb, and "Find a Route" box stay in place.</li>
-        </ul></div>
-      <div class="card"><h3>What the user hears</h3><p>The page makes no sound. A screen reader announces the button name and selected state, then reads the updated heading and content.</p></div>
-      <div class="card"><h3>What the user feels</h3><p>There is no haptic response. The user feels the physical mouse, key, or touchscreen press; the hand cursor indicates that a button is clickable.</p>
-        <ul>
-          <li>The changed selection and schedule content confirm the click.</li>
-        </ul>
+      <div class="card"><h3>Rule 1: On hover</h3>
+        <p>The pointer becomes a finger.</p>
+      </div>
+      <div class="card"><h3>Rule 2: Off hover</h3>
+        <p>The pointer returns to normal. The button and selected mode stay the same.</p>
+      </div>
+      <div class="card"><h3>Rule 3: On click</h3>
+        <p>When clicked, the background color changes to black and the text and icon change to white. After interaction, it displays schedule information underneath.</p>
       </div>
     </div>
+    <div class="note"><strong>Why it matters:</strong> The selected mode and schedule content stay clear and consistent.</div>
   </div>
 </section>
 <section id="modes">
