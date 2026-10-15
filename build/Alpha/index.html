@@ -65,14 +65,8 @@ section:nth-of-type(even) .card{background:var(--bg)}
 .card h3{margin:0 0 6px;font-size:1.1rem}
 .card p,.card ul{margin:0}
 .card ul{padding-left:1.2em}
-.video-block{margin:20px 0 0;max-width:820px}
+.video-block{margin:20px auto 0;max-width:820px}
 .video-block video{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#000;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-.metro-pair{display:grid;grid-template-columns:repeat(2,minmax(0,auto));gap:16px;align-items:start;margin-top:24px;max-width:100%}
-.metro-pair img{display:block;width:auto;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:var(--card);object-fit:contain}
-.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:24px}
-.shots figure{margin:0}
-.shots img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
-.shots figcaption{color:var(--muted);font-size:.9rem;margin-top:6px}
 .ex{background:var(--sky);border-radius:8px;padding:16px 18px;margin-top:24px;max-width:62ch}
 .ex strong{color:var(--blue)}
 .change{font-weight:700;font-size:1.15rem}
@@ -83,62 +77,23 @@ section:nth-of-type(even) .card{background:var(--bg)}
 .flow li:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-24px;width:0;height:0;border:10px solid transparent;border-top:14px solid var(--blue);border-bottom:0;transform:translateX(-50%)}
 .flow li.loop{background:var(--blue);color:#fff;margin-bottom:0}
 footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
-/* alpha microinteraction */
-.alpha{background:var(--card);padding:40px 0;border-bottom:1px solid var(--line);text-align:center}
-.alpha .wrap{display:flex;flex-direction:column;align-items:center}
-.mi{width:100%;max-width:680px;margin:0 auto}
-.mi-tabs{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--bg);border:2px solid var(--line);border-radius:99px;padding:4px}
-.mi-tabs button{position:relative;z-index:1;font:inherit;font-weight:700;font-size:.95rem;border:0;background:transparent;color:var(--ink);padding:10px 8px;border-radius:99px;cursor:pointer;transition:color .2s,transform .12s,background .2s}
-.mi-tabs button:hover:not([aria-selected="true"]){background:var(--sky)}
-.mi-tabs button:active{transform:scale(.95)}
-.mi-tabs button[aria-selected="true"]{color:#fff}
-.mi-pill{position:absolute;z-index:0;top:4px;bottom:4px;left:4px;width:calc(25% - 2px);background:var(--m,var(--navy));border-radius:99px;transition:transform .3s cubic-bezier(.3,1.3,.5,1),background .3s}
-.mi-panel{margin-top:16px;background:var(--bg);border:1px solid var(--line);border-top:6px solid var(--m,var(--navy));border-radius:10px;padding:18px 20px;text-align:left;min-height:200px}
-.mi-panel.swap{animation:swap .3s ease-out}
-@keyframes swap{from{opacity:0;transform:translateY(8px)}}
-.mi-panel h3{margin:0 0 4px;font-size:1.4rem}
-.mi-desc{margin:0 0 12px;color:var(--muted)}
-.mi-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.mi-list li{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c,var(--blue));border-radius:6px;padding:4px 10px;font-size:.9rem;font-weight:500}
-.mi-live{margin:8px 0 0;color:var(--muted);font-size:.85rem;min-height:1.4em}
-@media (max-width:560px){.mi-tabs{grid-template-columns:1fr 1fr;border-radius:20px}.mi-pill{display:none}.mi-tabs button[aria-selected="true"]{background:var(--m,var(--navy))}}
 @media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero{padding:32px 0 40px}section{padding:40px 0}}
-@media (prefers-reduced-motion:reduce){.arriving,.mi-panel.swap{animation:none}.mi-pill,.mi-tabs button{transition:none}html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){.arriving{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
-    <div class="brand"><img class="logo" src="images/septa-logo.webp" alt="" aria-hidden="true"> SEPTA App</div>
+    <div class="brand">SEPTA App</div>
     <nav aria-label="Sections">
       <a href="#locate">Locate it</a><a href="#triggers">Triggers</a><a href="#rules">Rules</a><a href="#feedback">Feedback</a><a href="#modes">Loops &amp; modes</a>
     </nav>
+    <img class="logo" src="images/septa-logo.webp" alt="SEPTA logo">
   </div>
   <div class="stripe"></div>
 </header>
 
 <main>
-<div id="alpha" class="alpha">
-  <div class="wrap">
-    <h2>Alpha microinteraction: Schedules mode buttons</h2>
-    <p class="q">Try it. Click, tap, hover, or use the arrow keys.</p>
-    <div class="mi">
-      <div class="mi-tabs" role="tablist" aria-label="Schedule mode">
-        <span class="mi-pill" aria-hidden="true"></span>
-        <button role="tab" id="t-metro" aria-controls="mi-panel" aria-selected="true" data-mode="metro">Metro</button>
-        <button role="tab" id="t-bus" aria-controls="mi-panel" aria-selected="false" tabindex="-1" data-mode="bus">Bus</button>
-        <button role="tab" id="t-rail" aria-controls="mi-panel" aria-selected="false" tabindex="-1" data-mode="rail">Regional Rail</button>
-        <button role="tab" id="t-access" aria-controls="mi-panel" aria-selected="false" tabindex="-1" data-mode="access">SEPTA Access</button>
-      </div>
-      <div class="mi-panel" id="mi-panel" role="tabpanel" aria-labelledby="t-metro" tabindex="0">
-        <h3 id="mi-title"></h3>
-        <p id="mi-desc" class="mi-desc"></p>
-        <ul id="mi-list" class="mi-list"></ul>
-      </div>
-      <p class="mi-live" id="mi-live" role="status" aria-live="polite"></p>
-    </div>
-  </div>
-</div>
 <div class="wrap" style="padding-top:16px">
   <p>Public-facing interface: <a href="https://www.septa.org/schedules?mode=metro" target="_blank" rel="noopener noreferrer">https://www.septa.org/schedules?mode=metro</a></p>
 </div>
@@ -166,27 +121,11 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="triggers">
   <div class="wrap">
     <h2>1. Triggers</h2>
-    <p class="q">What event starts the microinteraction?</p>
-    <p>The microinteraction starts when a rider wants a schedule for a particular kind of service and uses the mode buttons on the Schedules page to get it. It can be started by the rider (manual triggers) or by the page itself (system triggers).</p>
-    <h3 style="margin-top:20px">Rider-initiated triggers</h3>
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Click a mode button</h3><p>On a desktop or laptop, the rider clicks <strong>Metro</strong>, <strong>Bus</strong>, <strong>Regional Rail</strong>, or <strong>SEPTA Access</strong>. This is the primary trigger.</p></div>
-      <div class="card"><h3>Tap a mode button</h3><p>On a phone or tablet, the rider taps one of the same buttons. The row sits directly under the "Schedules" heading, so it is visible without scrolling.</p></div>
-      <div class="card"><h3>Keyboard or assistive technology</h3><p>The buttons are exposed as a tab list. A rider using a keyboard or screen reader can move focus to a button and activate it.</p></div>
-      <div class="card"><h3>Click through several modes</h3><p>A rider unsure which mode they need often clicks one button after another, for example Metro, then Bus, then Regional Rail. Each click starts the interaction again.</p></div>
-    </div>
-    <h3 style="margin-top:28px">System-initiated triggers</h3>
-    <div class="grid" style="margin-top:12px">
-      <div class="card"><h3>Arriving on the page</h3><p>When the Schedules page loads from the home-page navigation or the Metro link, the <strong>Metro</strong> button is already selected and the "Metro Schedules" panel is showing. The rider's first decision is whether to stay on this default or switch.</p></div>
-      <div class="card"><h3>Opening a mode link directly</h3><p>Each click updates the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>). A rider who opens a saved or shared link such as <code>septa.org/schedules?mode=metro</code> lands in that mode without clicking.</p></div>
-    </div>
-    <div class="shots" aria-label="Schedules mode buttons screenshots">
-      <figure><img src="images/schedules-metro.png" alt="Schedules page with the Metro button selected, showing Metro Schedules"><figcaption>Metro selected (default)</figcaption></figure>
-      <figure><img src="images/schedules-bus.png" alt="Schedules page with the Bus button selected, showing Bus Schedules"><figcaption>Bus selected</figcaption></figure>
-      <figure><img src="images/schedules-regional-rail.png" alt="Schedules page with the Regional Rail button selected, showing Regional Rail Schedules"><figcaption>Regional Rail selected</figcaption></figure>
-      <figure><img src="images/schedules-septa-access.png" alt="Schedules page with the SEPTA Access button selected, showing SEPTA Access information"><figcaption>SEPTA Access selected</figcaption></figure>
-    </div>
-    <div class="ex"><strong>Example:</strong> A rider wants the schedule for a bus they take to work. They open septa.org/schedules and see Metro selected by default. They click <strong>Bus</strong>. The heading changes to "Bus Schedules", the address changes to <code>?mode=bus</code>, and the bus routes appear.</div>
+    <ul>
+      <li>Hover</li>
+      <li>Hover off</li>
+      <li>Click</li>
+    </ul>
   </div>
 </section>
 <section id="rules">
@@ -194,168 +133,56 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <h2>2. Rules</h2>
     <p class="q">What rules determine how the microinteraction behaves?</p>
     <div class="grid">
-      <div class="card"><h3>Rule 1: One mode is selected at a time</h3>
-        <p>The four buttons work as a single-choice set. Exactly one is active, and choosing another one deselects the previous one.</p>
-        <ul>
-          <li>The active button turns dark (black) with white text. The other three stay light gray.</li>
-          <li>Metro is active by default when the page opens.</li>
-          <li>Clicking the button that is already active changes nothing.</li>
-          <li>A rider cannot select two modes at once or clear the selection.</li>
-          <li>The rider's choice is reflected in the page address (for example <code>?mode=metro</code> becomes <code>?mode=bus</code>).</li>
-        </ul>
+      <div class="card"><h3>Rule 1: On hover</h3>
+        <p>The pointer becomes a finger.</p>
       </div>
-      <div class="card"><h3>Rule 2: The schedule panel matches the selected mode</h3>
-        <p>Whichever button is active decides what appears directly below the row. The heading and the content both change to match it, while the buttons, the page banner, and the "Find a Route" box on the right stay where they are.</p>
-        <ul>
-          <li><strong>Metro:</strong> "Metro Schedules", a list of color-coded lines (Market-Frankford, Broad Street, Subway-Surface Trolleys, Route 15 Trolley, Media-Sharon Hill, Norristown High Speed). Some lines have an arrow to show or hide their routes.</li>
-          <li><strong>Bus:</strong> "Bus Schedules", a search box for bus routes, filter chips (All, Frequent, 1-48, 49-99, 100s-300s, 400-499, Lettered), and numbered route buttons. Red buttons mark Frequent Weekday Bus routes.</li>
-          <li><strong>Regional Rail:</strong> "Regional Rail Schedules", a two-column list of lines with three-letter codes (AIR, CHE, CHW, and so on).</li>
-          <li><strong>SEPTA Access:</strong> "SEPTA Access", a written description of the paratransit program, a Learn More button, and customer service contact details. It has no list of routes.</li>
-        </ul>
+      <div class="card"><h3>Rule 2: Off hover</h3>
+        <p>The pointer returns to normal. The button and selected mode stay the same.</p>
+      </div>
+      <div class="card"><h3>Rule 3: On click</h3>
+        <p>When clicked, the background color changes to black and the text and icon change to white. After interaction, it displays schedule information underneath.</p>
       </div>
     </div>
-    <div class="note"><strong>Why it matters:</strong> These two rules keep the choice simple. The rider always knows which mode they are viewing, and the content always confirms it.</div>
+    <div class="note"><strong>Why it matters:</strong> The selected mode and schedule content stay clear and consistent.</div>
   </div>
 </section>
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
-    <p class="q">What does the rider see, hear, or feel?</p>
+    <p class="q">What rules determine how the microinteraction behaves?</p>
     <div class="grid">
-      <div class="card"><h3>What the rider sees</h3><p>Visual feedback is the main response, and it appears immediately after a click or tap.</p>
-        <ul>
-          <li>The clicked button flips from light gray (with dark text) to near-black (with white text). This is the clearest sign that the choice registered.</li>
-          <li>The button that was active returns to light gray.</li>
-          <li>The heading below the row changes to match, for example "Metro Schedules" becomes "Bus Schedules".</li>
-          <li>The content under the heading is replaced: colored line bars, a route search with numbered buttons, a list of rail lines, or a text description.</li>
-          <li>The address bar updates to show the new mode.</li>
-          <li>The banner, the breadcrumb, and the "Find a Route" box on the right do not move, so the rider can tell only the schedule area changed.</li>
-        </ul></div>
-      <div class="card"><h3>What the rider hears</h3><p>The page makes no sounds of its own. There is no click tone or spoken confirmation.</p>
-        <p style="margin-top:8px">A rider using a screen reader hears the button name and whether it is selected (for example "Bus, tab, selected"), and can then read the new heading and content.</p></div>
-      <div class="card"><h3>What the rider feels</h3><p>There is no vibration or haptic response from the page. The physical feedback comes from the device itself:</p>
-        <ul>
-          <li>The press of the mouse button, the key, or the touchscreen.</li>
-          <li>The pointer changes to a hand when it is over a button, which signals that it can be clicked.</li>
-          <li>A quick, short color change (about 0.2 seconds) that feels responsive rather than abrupt.</li>
-        </ul>
-        <p style="margin-top:8px">Emotionally, the rider should feel oriented and in control: they know which mode they are in and that they can switch easily.</p></div>
+      <div class="card"><h3>Rule 1: On hover</h3>
+        <p>The pointer becomes a finger.</p>
+      </div>
+      <div class="card"><h3>Rule 2: Off hover</h3>
+        <p>The pointer returns to normal. The button and selected mode stay the same.</p>
+      </div>
+      <div class="card"><h3>Rule 3: On click</h3>
+        <p>When clicked, the background color changes to black and the text and icon change to white. After interaction, it displays schedule information underneath.</p>
+      </div>
     </div>
-    <div class="note"><strong>Observation:</strong> On the live site, hovering over an inactive button does not change its color. Only the pointer changes, so a rider gets no visual preview before committing to a mode.</div>
-    <div class="shots" aria-label="Selected state in each mode">
-      <figure><img src="images/schedules-metro.png" alt="Metro button shown in the selected, dark state"><figcaption>Selected state: Metro</figcaption></figure>
-      <figure><img src="images/schedules-bus.png" alt="Bus button shown in the selected, dark state"><figcaption>Selected state: Bus</figcaption></figure>
-    </div>
+    <div class="note"><strong>Why it matters:</strong> The selected mode and schedule content stay clear and consistent.</div>
   </div>
 </section>
 <section id="modes">
   <div class="wrap">
     <h2>4. Loops &amp; modes</h2>
-    <p class="q">What happens when the interaction repeats or conditions change?</p>
-    <p>These are the meta-rules. They do not change how a single click works (see Rules above). They describe what happens when the interaction repeats, what extra controls sit inside it, and how it adapts to different conditions.</p>
-    <h3>Loops</h3>
-    <div class="grid" style="margin-bottom:32px">
-      <div class="card"><h3>Loop 1: Switching between modes</h3><p>The buttons never go away after a choice. The rider can click any of the four buttons again and again, in any order, as many times as they like, and the page never needs a reload.</p><p class="change" style="margin-top:8px">Metro → Bus → Regional Rail → SEPTA Access → Metro …</p></div>
-      <div class="card"><h3>Loop 2: Moving back through history</h3><p>Each mode change adds an entry to the browser history. I tested that the browser's Back button returns to the previous mode, with the matching button selected again. The rider can retrace their steps without clicking the buttons.</p></div>
-      <div class="card"><h3>Loop 3: Repeating items inside a mode</h3><p>Within a mode, the same element repeats as a list. Metro shows one colored bar per line, Bus shows a grid of numbered route buttons, and Regional Rail shows a two-column list of coded lines. The rider scans these items to find their own.</p></div>
-      <div class="card"><h3>Loop 4: Ending the loop</h3><p>The loop ends when the rider clicks a line, route, or the Learn More button. That choice leaves the mode buttons and opens a schedule or another page.</p></div>
-    </div>
-    <h3>Additional modules inside the interaction</h3>
-    <div class="grid" style="margin-bottom:32px">
-      <div class="card"><h3>Show/hide arrows (Metro)</h3><p>Some Metro lines have a small arrow beside them. Clicking it expands that line to list its routes, and clicking again collapses it. I confirmed it reports an expanded state.</p></div>
-      <div class="card"><h3>Route search and filter chips (Bus)</h3><p>Only the Bus mode adds a "Search for bus routes" box and a row of chips: All, Frequent, 1-48, 49-99, 100s-300s, 400-499, and Lettered. All is the starting chip. These narrow the long list of routes without leaving Bus mode.</p></div>
-      <div class="card"><h3>Frequent Weekday Bus key (Bus)</h3><p>A red key ("= Frequent Weekday Bus") explains that red route buttons are frequent weekday routes. Black buttons are the others.</p></div>
-      <div class="card"><h3>Find a Route / Find a Station / Plan Your Trip</h3><p>A second set of three tabs sits on the right of the page, with a search box. It is separate from the mode buttons and stays the same in every mode, so the rider can search directly instead of browsing.</p></div>
-    </div>
-    <h3>Modes</h3>
-    <div class="grid modes">
-      <div class="card" style="--m:var(--ink)"><h3>Mode 1: Metro (default)</h3><p>The page opens here when no mode is specified. The content is a list of color-coded lines.</p></div>
-      <div class="card" style="--m:var(--blue)"><h3>Mode 2: Bus</h3><p>A large set of routes, so the interaction adds search and filtering to help the rider find one.</p></div>
-      <div class="card" style="--m:var(--muted)"><h3>Mode 3: Regional Rail</h3><p>A shorter, simpler list of lines with three-letter codes. There is no search or filter.</p></div>
-      <div class="card" style="--m:var(--late)"><h3>Mode 4: SEPTA Access</h3><p>Not a list of routes. The panel changes to text, a button, and a phone number, because this is a reservation-based paratransit service.</p></div>
-      <div class="card" style="--m:var(--live)"><h3>Mode 5: Small screens</h3><p>The interaction adapts when the screen is narrow. At a phone-sized width, I saw the four buttons stack vertically, one per row, instead of sitting in a single row.</p></div>
+    <p>None.</p>
+  </div>
+</section>
+<section id="video">
+  <div class="wrap">
+    <h2>Microinteraction video</h2>
+    <div class="video-block">
+      <video controls preload="metadata" aria-label="SEPTA schedules mode button microinteraction demonstration">
+        <source src="images/Microinteractionvideo.mp4" type="video/mp4">
+        Your browser does not support HTML video.
+      </video>
     </div>
   </div>
 </section>
 </main>
 <footer><div class="wrap">SEPTA Schedules microinteraction case study: the transportation mode buttons.</div></footer>
 
-
-<script>
-(function(){
-  var MODES={
-    metro:{title:"Metro Schedules",color:"#0067b1",desc:"Subway, Elevated, and Trolleys.",items:[["Market-Frankford","#0067b1"],["Broad Street","#f47b20"],["Subway-Surface Trolleys","#4d9c3b"],["Route 15 Trolley","#4d9c3b"],["Media-Sharon Hill","#4d9c3b"],["Norristown High Speed","#a4308f"]]},
-    bus:{title:"Bus Schedules",color:"#1c3f94",desc:"Search or browse bus routes. Red marks Frequent Weekday routes.",items:[["Route 21","#c8102e"],["Route 33","#c8102e"],["Route 47","#c8102e"],["Route 52","#14213d"],["Route 79","#14213d"],["Route 108","#14213d"]]},
-    rail:{title:"Regional Rail Schedules",color:"#a4308f",desc:"Choose a line by name or three-letter code.",items:[["Airport (AIR)","#a4308f"],["Chestnut Hill East (CHE)","#a4308f"],["Chestnut Hill West (CHW)","#a4308f"],["Cynwyd (CYN)","#a4308f"],["Doylestown (DOY)","#a4308f"],["Elwyn (ELW)","#a4308f"]]},
-    access:{title:"SEPTA Access",color:"#c96a00",desc:"Reservation-based paratransit service (formerly CCT). There is no route list; learn more or contact customer service to book.",items:[["Learn more","#c96a00"],["Customer service","#c96a00"]]}
-  };
-  var order=["metro","bus","rail","access"];
-  var tabs=Array.prototype.slice.call(document.querySelectorAll(".mi-tabs button"));
-  var pill=document.querySelector(".mi-pill"),panel=document.getElementById("mi-panel"),
-      title=document.getElementById("mi-title"),desc=document.getElementById("mi-desc"),
-      list=document.getElementById("mi-list"),live=document.getElementById("mi-live"),box=document.querySelector(".mi");
-  var current=null,clicks=0,ctx=null;
-  var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-
-  function tick(freq){
-    try{
-      ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
-      var o=ctx.createOscillator(),g=ctx.createGain();
-      o.frequency.value=freq;g.gain.value=.04;
-      o.connect(g);g.connect(ctx.destination);
-      o.start();g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.08);o.stop(ctx.currentTime+.09);
-    }catch(e){}
-  }
-
-  function select(mode,opts){
-    opts=opts||{};
-    if(mode===current)return; // rule: re-selecting the active mode does nothing
-    var m=MODES[mode],i=order.indexOf(mode);
-    current=mode;
-    tabs.forEach(function(t){
-      var on=t.dataset.mode===mode;
-      t.setAttribute("aria-selected",on);
-      t.tabIndex=on?0:-1;
-    });
-    box.style.setProperty("--m",m.color);
-    pill.style.transform="translateX("+(i*100)+"%)";
-    panel.setAttribute("aria-labelledby","t-"+mode);
-    title.textContent=m.title;desc.textContent=m.desc;
-    list.innerHTML="";
-    m.items.forEach(function(it){
-      var li=document.createElement("li");li.textContent=it[0];li.style.setProperty("--c",it[1]);list.appendChild(li);
-    });
-    panel.classList.remove("swap");void panel.offsetWidth;panel.classList.add("swap");
-    if(!opts.silent){
-      clicks++;
-      live.textContent=m.title+" selected."+(clicks>=3?" Tip: use the arrow keys to switch faster.":"");
-      tick(440+i*110);
-      if(!reduce&&navigator.vibrate)navigator.vibrate(10);
-    }
-    if(opts.push){history.pushState({mode:mode},"","#alpha-"+mode)}
-  }
-
-  tabs.forEach(function(t){
-    t.addEventListener("click",function(){select(t.dataset.mode,{push:true})});
-    t.addEventListener("keydown",function(e){
-      var i=order.indexOf(t.dataset.mode),n=null;
-      if(e.key==="ArrowRight")n=(i+1)%4;
-      else if(e.key==="ArrowLeft")n=(i+3)%4;
-      else if(e.key==="Home")n=0;
-      else if(e.key==="End")n=3;
-      if(n!==null){e.preventDefault();tabs[n].focus();select(order[n],{push:true})}
-    });
-  });
-
-  window.addEventListener("popstate",function(e){
-    select((e.state&&e.state.mode)||modeFromHash()||"metro");
-  });
-  function modeFromHash(){
-    var m=/^#alpha-(\w+)$/.exec(location.hash);
-    return m&&MODES[m[1]]?m[1]:null;
-  }
-  select(modeFromHash()||"metro",{silent:true});
-})();
-</script>
 </body>
 </html>
