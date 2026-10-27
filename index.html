@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beta Description: Improved SEPTA Schedules Microinteractions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --blue:#1c3f94;--navy:#0f2557;--sky:#e8eefb;--bg:#f4f6fa;--card:#fff;--ink:#14213d;--muted:#54607a;--line:#d5dcea;
+  --live:#1b7f3b;--late:#c96a00;--alert:#c8102e;--on-blue:#fff;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--live:#4cc47a;--late:#f0a04b;--alert:#ff6b7f}}
+:root[data-theme="dark"]{--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--live:#4cc47a;--late:#f0a04b;--alert:#ff6b7f}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",Helvetica,Arial,sans-serif;line-height:1.6;font-size:1rem}
+a{color:inherit}
+:focus-visible{outline:3px solid #f5a300;outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{background:var(--navy);color:var(--on-blue)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;letter-spacing:.02em}
+.logo{width:34px;height:34px;border-radius:50%;background:#fff;display:block;object-fit:contain;padding:4px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{text-decoration:none;padding:8px 12px;border-radius:6px;font-weight:500;font-size:.95rem}
+nav a:hover{background:rgba(255,255,255,.14)}
+.stripe{height:6px;background:linear-gradient(90deg,#0067b1 0 25%,#f47b20 25% 50%,#4d9c3b 50% 75%,#a4308f 75%)}
+.hero{background:var(--blue);color:var(--on-blue);padding:48px 0 56px}
+:root[data-theme="dark"] .hero,:root:not([data-theme="light"]) .hero{}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;margin:0 0 16px;font-weight:800}
+.hero p{margin:0;font-size:1.1rem;max-width:34em;opacity:.95}
+.pill{display:inline-block;background:rgba(255,255,255,.16);padding:4px 12px;border-radius:99px;font-size:.9rem;margin-bottom:16px}
+/* demo */
+.phone{background:var(--card);color:var(--ink);border-radius:22px;box-shadow:0 12px 32px rgba(0,0,0,.3);overflow:hidden;max-width:400px;width:100%;justify-self:center}
+.ph-head{background:var(--navy);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+.ph-body{padding:18px}
+.route{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.badge{background:#0067b1;color:#fff;font-weight:800;border-radius:8px;padding:6px 12px;font-size:1.15rem}
+.route small{display:block;color:var(--muted)}
+.status{display:inline-block;font-weight:700;font-size:.85rem;padding:3px 10px;border-radius:99px;border:2px solid currentColor}
+.s-sched{color:var(--muted)}.s-live{color:var(--live)}.s-late{color:var(--late)}.s-alert{color:var(--alert)}
+.big{font-size:3rem;font-weight:800;line-height:1.1;margin:10px 0 2px}
+.sub{color:var(--muted);min-height:1.6em;margin:0 0 12px}
+.alertbar{background:var(--alert);color:#fff;border-radius:8px;padding:8px 12px;font-size:.9rem;margin-bottom:12px}
+.alertbar[hidden]{display:none}
+.next{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.next li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.arriving{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.tabs button,.btn{font:inherit;font-weight:500;font-size:.85rem;border:2px solid var(--blue);background:transparent;color:var(--blue);border-radius:99px;padding:6px 12px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.btn{margin-top:12px;background:var(--blue);color:#fff}
+/* sections */
+section{padding:56px 0}
+section:nth-of-type(even){background:var(--card)}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem);margin:0 0 8px;color:var(--blue);line-height:1.15}
+.q{color:var(--muted);margin:0 0 28px;font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:8px;padding:18px}
+section:nth-of-type(even) .card{background:var(--bg)}
+.card h3{margin:0 0 6px;font-size:1.1rem}
+.card p,.card ul{margin:0}
+.card ul{padding-left:1.2em}
+.video-block{margin:20px auto 0;max-width:820px}
+.video-block video{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:#000;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.ex{background:var(--sky);border-radius:8px;padding:16px 18px;margin-top:24px;max-width:62ch}
+.ex strong{color:var(--blue)}
+.change{font-weight:700;font-size:1.15rem}
+.note{border-left:6px solid var(--late);background:var(--sky);padding:14px 18px;border-radius:0 8px 8px 0;margin-top:24px;max-width:62ch}
+.modes .card{border-left-color:var(--m)}
+.flow{list-style:none;margin:0;padding:0;max-width:520px;margin-inline:auto}
+.flow li{position:relative;background:var(--card);border:2px solid var(--blue);border-radius:10px;padding:12px 16px;text-align:center;font-weight:500;margin-bottom:26px}
+.flow li:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-24px;width:0;height:0;border:10px solid transparent;border-top:14px solid var(--blue);border-bottom:0;transform:translateX(-50%)}
+.flow li.loop{background:var(--blue);color:#fff;margin-bottom:0}
+footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
+.modebar{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px 0 20px}
+.mode{display:flex;align-items:center;gap:10px;font:inherit;font-weight:700;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:10px 18px;cursor:pointer;transition:background-color .2s,color .2s,transform .1s}
+.mode-icon{display:inline-block;width:28px;font-size:24px;line-height:1;text-align:center}
+.mode:hover{border-color:var(--ink)}
+.mode:active{transform:scale(.97)}
+.mode[aria-pressed="true"]{background:#000;border-color:#000;color:#fff}
+.mode[aria-pressed="true"] img{filter:brightness(0) invert(1)}
+.modepanel{width:100%;max-width:640px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px;text-align:left}
+.modepanel h3{margin:0 0 8px;color:var(--blue)}
+.modepanel ul{margin:0;padding-left:1.2em}
+.modepanel.in{animation:fadein .3s ease-out}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.modepanel.in{animation:none}.mode{transition:none}}
+.mode{position:relative}
+.mode .chk{display:none;font-weight:800}
+.mode[aria-pressed="true"] .chk{display:inline}
+.mode[aria-pressed="true"]{box-shadow:0 5px 0 var(--blue)}
+.modepanel.flash,.acc-item.flash{animation:flash .6s ease-out}
+@keyframes flash{from{background:var(--sky);border-color:var(--blue)}}
+.acc{max-width:720px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.acc-item+.acc-item{border-top:1px solid var(--line)}
+.acc-item h3{margin:0}
+.acc-btn{width:100%;display:flex;align-items:center;gap:12px;font:inherit;font-weight:700;color:var(--ink);background:transparent;border:0;border-left:6px solid transparent;padding:14px 16px;text-align:left;cursor:pointer;transition:background-color .2s,border-color .2s}
+.acc-btn:hover{background:var(--sky)}
+.acc-btn[aria-expanded="true"]{border-left-color:var(--blue);background:var(--sky)}
+.rbadge{color:#fff;border-radius:6px;padding:2px 10px;font-size:.9rem}
+.rname{flex:1}
+.chev{width:10px;height:10px;border-right:3px solid var(--blue);border-bottom:3px solid var(--blue);transform:rotate(45deg);transition:transform .25s;margin-right:6px}
+.acc-btn[aria-expanded="true"] .chev{transform:rotate(225deg)}
+.acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.acc-panel>div{overflow:hidden;visibility:hidden;transition:visibility .3s}
+.acc-btn[aria-expanded="true"]+.acc-panel,.acc-panel.open{grid-template-rows:1fr}
+.acc-panel.open>div{visibility:visible}
+.acc-panel ul{margin:0;padding:4px 16px 16px 40px}
+@media (prefers-reduced-motion:reduce){.chev,.acc-panel,.acc-btn{transition:none}.modepanel.flash,.acc-item.flash{animation:none}}
+@media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero{padding:32px 0 40px}section{padding:40px 0}}
+@media (prefers-reduced-motion:reduce){.arriving{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">SEPTA App</div>
+    <nav aria-label="Sections">
+      <a href="#overview">Overview</a><a href="#selected">Selected state</a><a href="#expand">Route expansion</a><a href="#click-feedback">Click feedback</a><a href="#summary">Summary</a>
+    </nav>
+    <img class="logo" src="images/septa-logo.webp" alt="SEPTA logo">
+  </div>
+  <div class="stripe"></div>
+</header>
+
+<main>
+<div class="wrap" style="padding-top:16px">
+  <p>Original interface: <a href="https://www.septa.org/schedules?mode=metro" target="_blank" rel="noopener noreferrer">septa.org/schedules</a></p>
+</div>
+<section id="overview">
+  <div class="wrap">
+    <h2>Beta description</h2>
+    <p class="q">Improved versions of the microinteractions on the SEPTA Schedules page.</p>
+    <p>The current Schedules page works, but it does not always show riders what is clickable, which choice is active, or that a click registered. This beta improves three things:</p>
+    <div class="grid">
+      <div class="card"><h3>1. Clearer selected state</h3><p>The active transit mode is obvious at a glance.</p></div>
+      <div class="card"><h3>2. One-target route rows</h3><p>The whole route row opens the schedule, with a chevron showing open or closed.</p></div>
+      <div class="card"><h3>3. Immediate click feedback</h3><p>Chevron rotation, smooth reveal, and a brief highlight confirm each click.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="selected">
+  <div class="wrap">
+    <h2>1. Make the selection state clearer</h2>
+    <p class="q">Metro, Bus, Regional Rail, and SEPTA Access look alike. Only a dark fill marks the selected one.</p>
+    <p><strong>Improvement:</strong> the selected button gets a checkmark and an accent underline in addition to the dark fill, so it does not rely on color alone. State is exposed with <code>aria-pressed</code>.</p>
+    <div class="modebar" id="beta-modes" role="group" aria-label="Transit mode">
+      <button class="mode" type="button" aria-pressed="true" data-mode="Metro"><span class="mode-icon" aria-hidden="true">🚇</span>Metro<span class="chk" aria-hidden="true">✓</span></button>
+      <button class="mode" type="button" aria-pressed="false" data-mode="Bus"><span class="mode-icon" aria-hidden="true">🚌</span>Bus<span class="chk" aria-hidden="true">✓</span></button>
+      <button class="mode" type="button" aria-pressed="false" data-mode="Regional Rail"><span class="mode-icon" aria-hidden="true">🚆</span>Regional Rail<span class="chk" aria-hidden="true">✓</span></button>
+      <button class="mode" type="button" aria-pressed="false" data-mode="SEPTA Access"><span class="mode-icon" aria-hidden="true">♿</span>SEPTA Access<span class="chk" aria-hidden="true">✓</span></button>
+    </div>
+    <div class="modepanel" id="beta-panel" aria-live="polite"><h3>Metro Schedules</h3><p style="margin:0">Subway, Elevated, and Trolleys.</p></div>
+  </div>
+</section>
+
+<section id="expand">
+  <div class="wrap">
+    <h2>2. Improve the route expansion interaction</h2>
+    <p class="q">Some routes have a separate colored arrow beside the route name, which splits the interaction into two targets.</p>
+    <p><strong>Improvement:</strong> the entire route row is one button. A chevron shows whether it is expanded or collapsed.</p>
+    <div class="acc" id="beta-acc">
+      <div class="acc-item">
+        <h3><button class="acc-btn" type="button" aria-expanded="false" aria-controls="r1"><span class="rbadge" style="background:#0067b1">MFL</span><span class="rname">Market-Frankford Line</span><span class="chev" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="r1"><div><ul><li>Weekday: 5:00 AM to 12:00 AM</li><li>Saturday: 5:00 AM to 12:00 AM</li><li>Sunday: 5:00 AM to 12:00 AM</li></ul></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" type="button" aria-expanded="false" aria-controls="r2"><span class="rbadge" style="background:#f47b20">BSL</span><span class="rname">Broad Street Line</span><span class="chev" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="r2"><div><ul><li>Weekday: 5:00 AM to 12:00 AM</li><li>Saturday: 5:00 AM to 12:00 AM</li><li>Sunday: 5:00 AM to 12:00 AM</li></ul></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button class="acc-btn" type="button" aria-expanded="false" aria-controls="r3"><span class="rbadge" style="background:#4d9c3b">T1</span><span class="rname">Trolley Route 10</span><span class="chev" aria-hidden="true"></span></button></h3>
+        <div class="acc-panel" id="r3"><div><ul><li>Weekday: 4:45 AM to 1:00 AM</li><li>Saturday: 5:00 AM to 1:00 AM</li><li>Sunday: 5:15 AM to 12:30 AM</li></ul></div></div>
+      </div>
+    </div>
+    <p class="q" style="margin-top:12px">Demo schedule times are placeholders.</p>
+  </div>
+</section>
+
+<section id="click-feedback">
+  <div class="wrap">
+    <h2>3. Give immediate feedback after a click</h2>
+    <p class="q">Riders should know right away that a route opened or a category changed.</p>
+    <p><strong>Improvement:</strong> try the demos above. The chevron rotates, the schedule slides open, and the row or panel flashes a brief highlight and border.</p>
+    <div class="note"><strong>Motion:</strong> animations are turned off for riders who prefer reduced motion. The open state still shows through the chevron direction and <code>aria-expanded</code>.</div>
+  </div>
+</section>
+
+<section id="summary">
+  <div class="wrap">
+    <h2>Summary: triggers, rules, feedback</h2>
+    <div class="grid">
+      <div class="card"><h3>Triggers</h3><ul><li>Hover</li><li>Hover off</li><li>Click or keyboard activation</li></ul></div>
+      <div class="card"><h3>Rules</h3><ul><li>Hover: pointer becomes a finger and the row or button lightens.</li><li>Click on a mode: it becomes selected, others deselect.</li><li>Click on a route row: it toggles open or closed.</li></ul></div>
+      <div class="card"><h3>Feedback</h3><ul><li>Checkmark and underline on the selected mode.</li><li>Chevron rotates 180 degrees.</li><li>Schedule slides open and a brief highlight plays.</li></ul></div>
+      <div class="card"><h3>Loops &amp; modes</h3><p>None.</p></div>
+    </div>
+  </div>
+</section>
+<section id="video">
+  <div class="wrap">
+    <h2>Original microinteraction video</h2>
+    <div class="video-block">
+      <video controls preload="metadata" aria-label="SEPTA schedules mode button microinteraction demonstration">
+        <source src="images/Microinteractionvideo.mp4" type="video/mp4">
+        Your browser does not support HTML video.
+      </video>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">SEPTA Schedules microinteraction case study: the transportation mode buttons.</div></footer>
+<script>
+(function(){
+  var info={"Metro":"Subway, Elevated, and Trolleys.","Bus":"Bus route schedules.","Regional Rail":"Regional Rail line schedules.","SEPTA Access":"Formerly CCT."};
+  var bar=document.getElementById("beta-modes"),panel=document.getElementById("beta-panel");
+  function flash(el){el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash")}
+  bar.addEventListener("click",function(e){
+    var b=e.target.closest(".mode");if(!b)return;
+    bar.querySelectorAll(".mode").forEach(function(m){m.setAttribute("aria-pressed",m===b)});
+    var n=b.dataset.mode;
+    panel.innerHTML="<h3></h3><p style='margin:0'></p>";
+    panel.firstChild.textContent=n+" Schedules";panel.lastChild.textContent=info[n];
+    flash(panel);
+  });
+  document.getElementById("beta-acc").addEventListener("click",function(e){
+    var b=e.target.closest(".acc-btn");if(!b)return;
+    var open=b.getAttribute("aria-expanded")!=="true";
+    b.setAttribute("aria-expanded",open);
+    var p=document.getElementById(b.getAttribute("aria-controls"));
+    p.classList.toggle("open",open);
+    flash(b.closest(".acc-item"));
+  });
+})();
+</script>
+</body>
+</html>
