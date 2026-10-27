@@ -7,12 +7,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap">
 <style>
 :root{
-  --blue:#1c3f94;--navy:#0f2557;--sky:#e8eefb;--bg:#f4f6fa;--card:#fff;--ink:#14213d;--muted:#54607a;--line:#d5dcea;
-  --live:#1b7f3b;--late:#c96a00;--alert:#c8102e;--on-blue:#fff;
+  --blue:#1c3f94;--navy:#0f2557;--sky:#e8eefb;--bg:#f4f6fa;--card:#fff;--ink:#14213d;--muted:#54607a;--line:#d5dcea;--late:#c96a00;--alert:#c8102e;--on-blue:#fff;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--live:#4cc47a;--late:#f0a04b;--alert:#ff6b7f}}
-:root[data-theme="dark"]{--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--live:#4cc47a;--late:#f0a04b;--alert:#ff6b7f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--late:#f0a04b;--alert:#ff6b7f}}
+:root[data-theme="dark"]{--bg:#0c1224;--card:#141c34;--ink:#eaeefb;--muted:#a5b0cc;--line:#2a3558;--sky:#1a2650;--blue:#5b82e6;--late:#f0a04b;--alert:#ff6b7f}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Public Sans",Helvetica,Arial,sans-serif;line-height:1.6;font-size:1rem}
@@ -33,12 +32,15 @@ section:nth-of-type(even){background:var(--card)}
 h2{font-size:clamp(1.6rem,3.5vw,2.2rem);margin:0 0 8px;color:var(--blue);line-height:1.15}
 .q{color:var(--muted);margin:0 0 28px;font-size:1.05rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.visualization-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.visualization-card video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#0c1224;border-radius:6px}
 .card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:8px;padding:18px}
 section:nth-of-type(even) .card{background:var(--bg)}
 .card h3{margin:0 0 6px;font-size:1.1rem}
 .card p,.card ul{margin:0}
 .card ul{padding-left:1.2em}
 .note{border-left:6px solid var(--late);background:var(--sky);padding:14px 18px;border-radius:0 8px 8px 0;margin-top:24px;max-width:62ch}
+:focus-visible{outline:3px solid #f5a300;outline-offset:3px}
 footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 @media (max-width:820px){.hero .wrap{grid-template-columns:1fr}.hero{padding:32px 0 40px}section{padding:40px 0}}
 </style>
@@ -47,7 +49,7 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <header class="top">
   <div class="wrap">
     <div class="brand">SEPTA App</div>
-    <img class="logo" src="images/septa-logo.webp" alt="SEPTA logo">
+    <img class="logo" src="../Alpha/images/septa-logo.webp" alt="SEPTA logo">
   </div>
   <div class="stripe"></div>
 </header>
@@ -61,13 +63,11 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <h2>1. Triggers</h2>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3><ul><li>Hover</li><li>Hover off</li><li>Click on the chevron button beside a route name (only on some routes)</li></ul></div>
-      <div class="card"><h3>Improved</h3><ul><li>Hover</li><li>Hover off</li><li>Click or keyboard activation anywhere on the route row</li></ul></div>
+      <div class="card"><h3>Improved</h3><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Station / Trip tabs and search field</h3>
+    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip </h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3><ul><li>Hover</li><li>Hover off</li><li>Click on a tab</li><li>Click on the search field</li></ul></div>
-      <div class="card"><h3>Improved</h3><ul><li>Hover</li><li>Hover off</li><li>Click or keyboard activation (Tab, Enter, arrow keys, Esc) on a tab or the search field</li><li>Typing in the search field</li></ul></div>
+      <div class="card"><h3>Improved</h3><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
     </div>
   </div>
 </section>
@@ -78,28 +78,16 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <p class="q">What rules determine how each microinteraction behaves?</p>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger only over the colored route name or the separate chevron button.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal.</p>
-        <p><strong>On click:</strong> only the chevron button opens the schedule. Some routes have no chevron, so it is unclear whether they can be opened.</p>
-      </div>
       <div class="card"><h3>Improved</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger and the whole route row lightens.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal and the row returns to its original color.</p>
-        <p><strong>On click or keyboard activation:</strong> the entire row is one target. It toggles the schedule open or closed, and a chevron appears on every expandable route.</p>
+        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
+        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
       </div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Station / Trip tabs and search field</h3>
+    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger over a tab or the search field.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal.</p>
-        <p><strong>On click:</strong> a tab turns black with white text and shows a small pointer beneath it. The search field shows both a magnifying glass and a dropdown chevron, so it is unclear whether it is a text input or a list.</p>
-      </div>
       <div class="card"><h3>Improved</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger and the tab or search field lightens. Unselected tabs have a visible border.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal and the tab or field returns to its original color.</p>
-        <p><strong>On click or keyboard activation:</strong> a tab becomes selected with a checkmark and underline in addition to the black fill, and the panel below changes. The whole search field is one target that opens a suggestions list, typing filters it, and choosing a result fills the field and closes the list.</p>
+        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
+        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
       </div>
     </div>
   </div>
@@ -111,28 +99,16 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <p class="q">What rules determine how each microinteraction behaves?</p>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger only over the colored route name or the separate chevron button.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal.</p>
-        <p><strong>On click:</strong> only the chevron button opens the schedule. Some routes have no chevron, so it is unclear whether they can be opened.</p>
-      </div>
       <div class="card"><h3>Improved</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger and the whole route row lightens.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal and the row returns to its original color.</p>
-        <p><strong>On click or keyboard activation:</strong> the entire row is one target. It toggles the schedule open or closed, and a chevron appears on every expandable route.</p>
+        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
+        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
       </div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Station / Trip tabs and search field</h3>
+    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger over a tab or the search field.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal.</p>
-        <p><strong>On click:</strong> a tab turns black with white text and shows a small pointer beneath it. The search field shows both a magnifying glass and a dropdown chevron, so it is unclear whether it is a text input or a list.</p>
-      </div>
       <div class="card"><h3>Improved</h3>
-        <p><strong>On hover:</strong> the pointer becomes a finger and the tab or search field lightens. Unselected tabs have a visible border.</p>
-        <p><strong>Off hover:</strong> the pointer returns to normal and the tab or field returns to its original color.</p>
-        <p><strong>On click or keyboard activation:</strong> a tab becomes selected with a checkmark and underline in addition to the black fill, and the panel below changes. The whole search field is one target that opens a suggestions list, typing filters it, and choosing a result fills the field and closes the list.</p>
+        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
+        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
       </div>
     </div>
   </div>
@@ -143,57 +119,41 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <h2>4. Loops &amp; modes</h2>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3><p>None.</p></div>
-      <div class="card"><h3>Improved</h3><p>None.</p></div>
+      <div class="card"><h3>Improved</h3><p>Clicking a route row toggles it between collapsed and expanded; clicking it again reverses the state. The video repeats this on different route rows.</p></div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Station / Trip tabs and search field</h3>
+    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
-      <div class="card"><h3>Original</h3><p>None.</p></div>
-      <div class="card"><h3>Improved</h3><p>None.</p></div>
+      <div class="card"><h3>Improved</h3><p>The three tabs are modes: selecting one marks it active and replaces the panel with that category. In Plan your trip, the search loop is open suggestions, filter by typing, then choose a result to fill the field and close suggestions; this sequence can be repeated with another search.</p></div>
     </div>
   </div>
 </section>
 
-<section id="overview">
+<section id="visualization">
   <div class="wrap">
-    <h2>Beta description</h2>
-    <p class="q">Improved versions of the microinteractions on the SEPTA Schedules page.</p>
-    <p>The current Schedules page works, but it does not always show riders what is clickable, which choice is active, or that a click registered. This beta improves three things:</p>
-    <div class="grid">
-      <div class="card"><h3>1. Clearer selected state</h3><p>The active transit mode is obvious at a glance.</p></div>
-      <div class="card"><h3>2. One-target route rows</h3><p>The whole route row opens the schedule, with a chevron showing open or closed.</p></div>
-      <div class="card"><h3>3. Immediate click feedback</h3><p>Chevron rotation, smooth reveal, and a brief highlight confirm each click.</p></div>
+    <h2>Visualization</h2>
+    <p class="q">Watch the SEPTA schedule microinteraction demonstrations.</p>
+    <div class="visualization-grid">
+      <article class="card visualization-card">
+        <h3 id="visualization-routes">Route rows</h3>
+        <video controls preload="metadata" playsinline aria-labelledby="visualization-routes">
+          <source src="../Alpha/images/route%20rows.mp4" type="video/mp4">
+          Your browser does not support embedded videos.
+        </video>
+      </article>
+      <article class="card visualization-card">
+        <h3 id="visualization-trip">Plan your trip</h3>
+        <video controls preload="metadata" playsinline aria-labelledby="visualization-trip">
+          <source src="../Alpha/images/Plan%20your%20trip.mp4" type="video/mp4">
+          Your browser does not support embedded videos.
+        </video>
+      </article>
     </div>
-  </div>
-</section>
-
-<section id="selected">
-  <div class="wrap">
-    <h2>1. Make the selection state clearer</h2>
-    <p class="q">Metro, Bus, Regional Rail, and SEPTA Access look alike. Only a dark fill marks the selected one.</p>
-    <p><strong>Improvement:</strong> the selected button gets a checkmark and an accent underline in addition to the dark fill, so it does not rely on color alone. State is exposed with <code>aria-pressed</code>.</p>
-  </div>
-</section>
-
-<section id="expand">
-  <div class="wrap">
-    <h2>2. Improve the route expansion interaction</h2>
-    <p class="q">Some routes have a separate colored arrow beside the route name, which splits the interaction into two targets.</p>
-    <p><strong>Improvement:</strong> the entire route row is one button. A chevron shows whether it is expanded or collapsed.</p>
-    <p>When a rider activates a route row, the schedule opens beneath that row. A chevron points down while collapsed and rotates to indicate the expanded state.</p>
-  </div>
-</section>
-
-<section id="click-feedback">
-  <div class="wrap">
-    <h2>3. Give immediate feedback after a click</h2>
-    <p class="q">Riders should know right away that a route opened or a category changed.</p>
-    <p><strong>Interaction feedback:</strong> the chevron rotates, the schedule slides open, and the row or panel flashes a brief highlight and border after activation.</p>
-    <div class="note"><strong>Motion:</strong> animations are turned off for riders who prefer reduced motion. The open state still shows through the chevron direction and <code>aria-expanded</code>.</div>
   </div>
 </section>
 
 </main>
 <footer><div class="wrap">SEPTA Schedules microinteraction case study: the transportation mode buttons.</div></footer>
+
+
 </body>
 </html>
