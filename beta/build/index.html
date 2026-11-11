@@ -194,25 +194,47 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <div class="grid">
       <div class="card"><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
     </div>
+    <h3 style="margin-top:28px">Interaction 3: Search bar</h3>
+    <div class="grid">
+      <div class="card"><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
+    </div>
   </div>
 </section>
 
 <section id="rules">
   <div class="wrap">
     <h2>2. Rules</h2>
-    <p class="q">What rules determine how each microinteraction behaves?</p>
+    <p class="q">What happens when someone uses each part of the page?</p>
+    <p class="q">The descriptions use the light theme unless they mention dark mode. Color changes happen quickly, and items only fade in or out where noted.</p>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
-        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
+        <p><strong>Before interaction:</strong> each route appears in a white row with a thin blue-gray border and a small arrow pointing down. The route number is white on a blue label, and the description is blue-gray. In dark mode, the row is dark blue and the text is lighter.</p>
+        <p><strong>Hover on:</strong> when the pointer moves over the route, the whole clickable part of the row quickly changes to pale blue. In dark mode, it changes to a lighter shade of dark blue. The text and arrow stay fully visible.</p>
+        <p><strong>Hover off:</strong> when the pointer leaves, the highlight fades back to the row's usual background. If the schedule is open, its blue border and soft blue outline remain.</p>
+        <p><strong>On click:</strong> the schedule appears underneath, and the arrow turns upward. The row gets a blue border and a faint blue outline, then briefly flashes pale blue. The schedule moves slightly upward and fades from partly visible to fully visible in about a fifth of a second. Its times appear on pale blue rounded labels. A green message says the route opened and disappears after a little over two seconds.</p>
+        <p><strong>Click again:</strong> the schedule disappears, the arrow points down, and the blue border and outline go away. The row flashes again, and a green message says the route closed. Other routes can stay open. If someone has reduced motion turned on, the flash and movement are removed.</p>
       </div>
     </div>
     <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
-        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
+        <p><strong>Before interaction:</strong> the selected tab is nearly black, with white text, a white checkmark, and a gold line underneath. The other tabs are white with dark text and a light blue-gray border. In dark mode, unselected tabs are dark blue with light text.</p>
+        <p><strong>Hover on:</strong> moving the pointer over an unselected tab quickly changes its background to pale blue and its border to blue. In dark mode, the background changes to a lighter shade of dark blue. The selected tab stays nearly black.</p>
+        <p><strong>Hover off:</strong> the unselected tab returns to its usual background and border. The selected tab keeps its checkmark and gold underline.</p>
+        <p><strong>On click:</strong> the tab briefly gets slightly smaller as it is pressed. It then becomes nearly black with a checkmark and gold underline, while the previous tab returns to its unselected appearance. The selected section replaces the previous one, moving slightly upward and fading into full view in about a fifth of a second. A green message confirms the selection for a little over two seconds.</p>
+        <p><strong>Keyboard and motion:</strong> the left and right arrow keys, Home, and End can also move between and select tabs. A gold outline shows which tab has keyboard focus. Reduced-motion settings remove the movement and color transitions. The search boxes in these sections work as described in Interaction 3.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Search bar</h3>
+    <div class="grid">
+      <div class="card">
+        <p><strong>Before interaction:</strong> each route, station, or trip search box is white with a light blue-gray border, dark text, and a small gray arrow. In dark mode, the box is dark blue with light text. The suggestions list is hidden.</p>
+        <p><strong>Hover on:</strong> moving the pointer over the box quickly turns its background pale blue and its border blue. In dark mode, the background becomes a lighter shade of dark blue. The box changes color but does not fade.</p>
+        <p><strong>Hover off:</strong> the box returns to its usual colors unless it is still selected for typing. If it is, the blue highlight stays visible.</p>
+        <p><strong>On click:</strong> clicking the search box opens a list of suggestions underneath. Clicking inside the text area or on the small arrow also makes the box ready for typing. The list has a white background, a light border, and a faint shadow; in dark mode, its background is dark blue. A suggestion turns pale blue, or a lighter dark blue in dark mode, when the pointer or keyboard highlights it.</p>
+        <p><strong>On typing and selection:</strong> the suggestions narrow as the person types, whether they use capital or lowercase letters. Typing in the route search also narrows the route list. If there are no matches, the list says “No matches found” in muted text. Choosing a suggestion fills the box and closes the list. Choosing a route or station also shows a confirmation message; choosing a route narrows the route list to that route. Trip searches use the chosen stations for the sample trip request.</p>
+        <p><strong>Keyboard and closing:</strong> the arrow keys move through suggestions, and Enter selects the highlighted suggestion or the first one. Escape, Tab, or a click outside closes the list. Reduced-motion settings remove the gradual color change.</p>
       </div>
     </div>
   </div>
@@ -221,19 +243,29 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
-    <p class="q">What rules determine how each microinteraction behaves?</p>
+    <p class="q">How does the page show people what happened?</p>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
-        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
+        <p><strong>Hover on and off:</strong> the row changes to pale blue when the pointer is over it and returns to its usual background when the pointer leaves. In dark mode, the highlight is a lighter dark blue. The text stays fully visible.</p>
+        <p><strong>On click:</strong> the arrow turns up, the row gains a blue border and faint outline, and a pale blue flash confirms the click. The schedule moves slightly upward and fades into view, with times on rounded pale blue labels. Clicking again hides the schedule and outline and turns the arrow down.</p>
+        <p><strong>Confirmation:</strong> a green message says whether the route opened or closed and disappears after a little over two seconds. Screen readers can also tell whether the row is open. Reduced-motion settings remove the flash and movement.</p>
       </div>
     </div>
     <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
-        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
+        <p><strong>Hover on and off:</strong> an unselected tab turns pale blue with a blue border when the pointer is over it, then returns to its usual colors when the pointer leaves. In dark mode, the highlight is a lighter dark blue. The selected tab stays nearly black.</p>
+        <p><strong>On click:</strong> the tab briefly shrinks while pressed, then shows white text, a checkmark, and a gold underline on a nearly black background. The matching section replaces the old one, moving slightly upward and fading into view.</p>
+        <p><strong>Confirmation:</strong> a green message names the selected tab for a little over two seconds. Screen readers can identify the selected tab, and a gold outline shows keyboard focus. Reduced-motion settings remove the movement and color transitions.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Search bar</h3>
+    <div class="grid">
+      <div class="card">
+        <p><strong>Hover on and off:</strong> the search box turns pale blue with a blue border when the pointer is over it, then returns to its usual colors when the pointer leaves. In dark mode, the highlight is a lighter dark blue. The highlight stays if the box is still ready for typing.</p>
+        <p><strong>On click:</strong> a bordered list appears below the box with a faint shadow. Its background is white in light mode and dark blue in dark mode. A suggestion is highlighted when the pointer or keyboard moves to it. Screen readers can tell when the list is open.</p>
+        <p><strong>On typing and selection:</strong> matching suggestions appear, or “No matches found” is shown in muted text. Choosing one fills the box and closes the list. Route and station choices show a confirmation message, and choosing a route narrows the route list. Escape, Tab, or a click outside also closes the list. Reduced-motion settings remove the gradual color change.</p>
       </div>
     </div>
   </div>
@@ -244,11 +276,15 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
     <h2>4. Loops &amp; modes</h2>
     <h3>Interaction 1: Route rows</h3>
     <div class="grid">
-      <div class="card"><p>Clicking a route row toggles it between collapsed and expanded; clicking it again reverses the state. The video repeats this on different route rows.</p></div>
+      <div class="card"><p><strong>Repeat:</strong> move the pointer over a route to highlight it and away to remove the highlight. Click to open its schedule, then click again to close it; each click briefly flashes the row and shows a message. <strong>States:</strong> a closed route has an arrow pointing down. An open route has an arrow pointing up, a blue border and outline, and a visible schedule. More than one route can be open at a time.</p></div>
     </div>
     <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
     <div class="grid">
-      <div class="card"><p>The three tabs are modes: selecting one marks it active and replaces the panel with that category. In Plan your trip, the search loop is open suggestions, filter by typing, then choose a result to fill the field and close suggestions; this sequence can be repeated with another search.</p></div>
+      <div class="card"><p><strong>Repeat:</strong> people can hover over and choose tabs as often as they like. Each choice shows its section and a confirmation message. <strong>States:</strong> only one of Find a Route, Find a Station, or Plan your trip is selected at a time. The selected tab stays dark with a white checkmark and gold underline; the other tabs return to their usual appearance.</p></div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Search bar</h3>
+    <div class="grid">
+      <div class="card"><p><strong>Repeat:</strong> click the search box to open suggestions, type to narrow them, and choose one to fill the box and close the list. Edit the text or click again to repeat. Escape, Tab, or a click outside also closes the list. <strong>States:</strong> the box can be untouched, highlighted by the pointer, or ready for typing; its suggestions can be open or closed. The highlight stays when the pointer leaves if the box is still ready for typing. An open list shows matches or a “No matches found” message.</p></div>
     </div>
   </div>
 </section>
