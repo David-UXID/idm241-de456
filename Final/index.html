@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Beta Description: Improved SEPTA Schedules Microinteractions</title>
+<title>SEPTA Schedules and Alerts Microinteractions</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800&display=swap">
 <style>
 :root{
@@ -33,7 +33,6 @@ h2{font-size:clamp(1.6rem,3.5vw,2.2rem);margin:0 0 8px;color:var(--blue);line-he
 .q{color:var(--muted);margin:0 0 28px;font-size:1.05rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .visualization-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
-.visualization-card video{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#0c1224;border-radius:6px}
 .card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:8px;padding:18px}
 section:nth-of-type(even) .card{background:var(--bg)}
 .card h3{margin:0 0 6px;font-size:1.1rem}
@@ -56,18 +55,22 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 
 <main>
 <div class="wrap" style="padding-top:16px">
-  <p>Original interface: septa.org/schedules</p>
+  <p>Original interface: <a href="https://www.septa.org/schedules/L1?directionId=0&amp;date=2026-11-12">SEPTA Market-Frankford Line schedules</a></p>
 </div>
 <section id="triggers">
   <div class="wrap">
     <h2>1. Triggers</h2>
-    <h3>Interaction 1: Route rows</h3>
+    <h3>Interaction 1: Schedules selection form</h3>
     <div class="grid">
       <div class="card"><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip </h3>
+    <h3 style="margin-top:28px">Interaction 2: Alerts &amp; Advisories</h3>
     <div class="grid">
       <div class="card"><ul><li>Hover On</li><li>Hover Off</li><li>On Click</li></ul></div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Route Map Navigation</h3>
+    <div class="grid">
+      <div class="card"><ul><li>Zoom In</li><li>Zoom Out</li><li>Toggle Stops</li><li>Pan/Drag</li><li>Open in Full Map</li></ul></div>
     </div>
   </div>
 </section>
@@ -76,18 +79,32 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
   <div class="wrap">
     <h2>2. Rules</h2>
     <p class="q">What rules determine how each microinteraction behaves?</p>
-    <h3>Interaction 1: Route rows</h3>
+    <h3>Interaction 1: Schedules selection form</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
-        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
+        <p><strong>Hover:</strong> hovering over a direction or stop control shows its temporary hover state without changing the selected trip. Moving the pointer away removes that state.</p>
+        <p><strong>Direction:</strong> Eastbound and Westbound are mutually exclusive options. Clicking one selects it, clears the other, and sets the travel direction used for the stop choices.</p>
+        <p><strong>Departure and Destination:</strong> Departure is required and Destination is optional. Clicking either “Select a stop” field opens a stop-picker dialog for that field, with a search box and a list of stops for the selected direction. Typing filters the list; clicking a stop fills the corresponding field and closes the dialog. Clicking Close dismisses the picker without changing that field.</p>
+        <p><strong>Date:</strong> clicking the date field opens the date control. Choosing a date closes or updates the control and changes the trip date shown in the field.</p>
+        <p><strong>Schedule results:</strong> after the required direction and departure are set, schedule information is shown for the default or selected date. Destination can further narrow the trip but may be left blank, and Date can be changed as needed. Changing a selection updates the schedule area. The page indicates when live trip data is unavailable for the line.</p>
       </div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
+    <h3 style="margin-top:28px">Interaction 2: Alerts &amp; Advisories</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
-        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
+        <p><strong>Hover:</strong> hovering over the Alerts control or an expandable advisory gives temporary hover feedback without opening the dialog or changing the advisory’s expanded state. Moving away removes the hover state.</p>
+        <p><strong>Open:</strong> clicking Alerts opens an overlay dialog titled “Alerts &amp; Advisories” for the selected line. The dialog contains a vertically scrollable list. Each entry identifies whether it is an Alert or Advisory, shows its status (such as Active, Upcoming, or Past), and displays a summary.</p>
+        <p><strong>Expand an advisory:</strong> advisory rows have a chevron. Clicking the row or chevron reveals the advisory’s additional details and changes the chevron to indicate it is expanded. Clicking the row again hides the details and returns it to its collapsed state. Alert summaries without a chevron remain displayed as list entries.</p>
+        <p><strong>Browse and close:</strong> scrolling within the dialog reveals more notices. Clicking the Close button dismisses the overlay and returns to the schedule page.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Route Map Navigation</h3>
+    <div class="grid">
+      <div class="card">
+        <p><strong>Zoom controls:</strong> a plus (+) button zooms in to show more detail of the transit line and surrounding areas, while a minus (−) button zooms out to show a broader view of the route and context. Each click on these buttons increments or decrements the map zoom level by one step.</p>
+        <p><strong>Stops toggle:</strong> an OFF/ON toggle switch labeled "Stops" controls the visibility of individual transit stops along the route. When toggled OFF, the map displays only the transit line corridor. When toggled ON, individual stop markers appear along the line, allowing users to see precise stop locations.</p>
+        <p><strong>Pan and drag:</strong> users can click and drag on the map to pan and reposition the view. This allows exploring different sections of the route while maintaining the current zoom level.</p>
+        <p><strong>Open in full map:</strong> a green button labeled "Open System Map" at the bottom of the map card opens a full-screen or expanded map view in a new context, providing a more detailed interactive experience for route exploration and stop selection.</p>
       </div>
     </div>
   </div>
@@ -96,19 +113,34 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="feedback">
   <div class="wrap">
     <h2>3. Feedback</h2>
-    <p class="q">What rules determine how each microinteraction behaves?</p>
-    <h3>Interaction 1: Route rows</h3>
+    <p class="q">What feedback confirms each interaction follows these rules?</p>
+    <h3>Interaction 1: Schedules selection form</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On hover:</strong> the whole route row is highlighted.</p>
-        <p><strong>On click:</strong> the schedule opens beneath the row and its chevron turns up. Clicking the same row again hides the schedule and turns the chevron down.</p>
+        <p><strong>Hover on/off:</strong> a direction or stop control shows its temporary hover state while pointed at; moving away removes it without changing trip selections.</p>
+        <p><strong>Direction:</strong> the clicked direction has a blue outline and selected radio state; the other option is no longer selected. This makes the active travel direction and its applicable stops clear.</p>
+        <p><strong>Departure and Destination:</strong> clicking a “Select a stop” field displays its stop-picker dialog, search box, and stop list. Typing narrows the visible matches. Choosing a stop closes the dialog and replaces the placeholder in that field with the selected stop; closing the dialog without choosing leaves the field unchanged. Departure remains visibly required, while Destination is marked optional.</p>
+        <p><strong>Date:</strong> the date control lets the user choose a trip date, and the field displays the chosen date after the selection.</p>
+        <p><strong>Schedule results:</strong> the results area changes to show schedule information for the default or currently selected date once the required direction and departure are set. Changing a selection updates the schedule area; Destination and Date are optional. If live trip data is unavailable, the page displays that notice rather than implying real-time data is available.</p>
       </div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
+    <h3 style="margin-top:28px">Interaction 2: Alerts &amp; Advisories</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>On click:</strong> the selected tab gets a dark fill, checkmark, and underline, and its matching panel appears.</p>
-        <p><strong>On the trip search field:</strong> clicking it opens suggestions. Typing filters the list; clicking a suggestion fills the field and closes the list.</p>
+        <p><strong>Hover on/off:</strong> the Alerts control and expandable advisory rows show temporary hover feedback while pointed at. Moving away removes that feedback without opening the dialog or expanding an advisory.</p>
+        <p><strong>Open:</strong> clicking Alerts displays an overlay with the “Alerts &amp; Advisories” heading, the selected line name, and a scrollable notice list. Each entry’s type, status label, and summary make its kind and current state visible.</p>
+        <p><strong>Expand an advisory:</strong> clicking an advisory row or chevron reveals its additional description and changes the chevron’s direction. Clicking it again hides the description and restores the collapsed chevron. Alert summaries without a chevron stay in their list form.</p>
+        <p><strong>Browse and close:</strong> scrolling reveals additional notices. Clicking Close removes the overlay and reveals the schedule page again.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Route Map Navigation</h3>
+    <div class="grid">
+      <div class="card">
+        <p><strong>Zoom in:</strong> clicking the plus (+) button incrementally increases the map zoom level, providing a closer view of the selected transit line and surrounding streets, making it easier to see line details and nearby stop positions.</p>
+        <p><strong>Zoom out:</strong> clicking the minus (−) button incrementally decreases the map zoom level, displaying a broader geographic context of the entire transit line, connecting routes, and regional geography.</p>
+        <p><strong>Stops toggle:</strong> clicking the Stops toggle switches between OFF (showing only the transit corridor without stop markers) and ON (displaying individual stop locations as interactive markers along the line). The toggle's state is visually indicated and persists during the user's map session.</p>
+        <p><strong>Pan map:</strong> clicking and dragging on the map repositions the view without changing the zoom level, allowing users to explore different sections of the route horizontally and vertically.</p>
+        <p><strong>Open system map:</strong> clicking the "Open System Map" button launches a full-screen or dedicated map interface with expanded interactive features, including the ability to view the entire SEPTA system, search for stops, and select alternative routes.</p>
       </div>
     </div>
   </div>
@@ -117,13 +149,17 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="modes">
   <div class="wrap">
     <h2>4. Loops &amp; modes</h2>
-    <h3>Interaction 1: Route rows</h3>
+    <h3>Interaction 1: Schedules selection form</h3>
     <div class="grid">
-      <div class="card"><p>Clicking a route row toggles it between collapsed and expanded; clicking it again reverses the state. The video repeats this on different route rows.</p></div>
+      <div class="card"><p>Eastbound and Westbound are mutually exclusive direction modes. For each stop field, repeat the picker loop: open it, search or browse the direction’s stop list, then choose a stop or close without choosing. Departure is required; Destination is optional. The date has a default and can be changed as needed; schedule results reflect the required selections and current date.</p></div>
     </div>
-    <h3 style="margin-top:28px">Interaction 2: Find a Route / Find a Station / Plan your trip</h3>
+    <h3 style="margin-top:28px">Interaction 2: Alerts &amp; Advisories</h3>
     <div class="grid">
-      <div class="card"><p>The three tabs are modes: selecting one marks it active and replaces the panel with that category. In Plan your trip, the search loop is open suggestions, filter by typing, then choose a result to fill the field and close suggestions; this sequence can be repeated with another search.</p></div>
+      <div class="card"><p>The alerts dialog has open and closed modes: clicking Alerts opens it, and clicking Close returns to the schedule page. The notice list can be scrolled while open. Advisory rows toggle between collapsed and expanded states when clicked, and can be collapsed again; the same loop applies as the user reviews advisories.</p></div>
+    </div>
+    <h3 style="margin-top:28px">Interaction 3: Route Map Navigation</h3>
+    <div class="grid">
+      <div class="card"><p>The map has several repeating interaction loops: zoom in and out using the +/− buttons to adjust detail level; toggle the Stops visibility on and off to show or hide stop markers; pan by dragging to reposition the view while maintaining zoom; and transition to the full system map by clicking "Open System Map." The zoom level persists during the session, and the Stops toggle state is maintained as the user interacts with the map. Users can repeat these actions in any order to explore the route.</p></div>
     </div>
   </div>
 </section>
@@ -131,28 +167,34 @@ footer{background:var(--navy);color:#cfd8f3;padding:28px 0;font-size:.9rem}
 <section id="visualization">
   <div class="wrap">
     <h2>Visualization</h2>
-    <p class="q">Watch the SEPTA schedule microinteraction demonstrations.</p>
+    <p class="q">The three interactions documented here are the trip schedule selector, the route alerts dialog, and the route map navigation.</p>
     <div class="visualization-grid">
       <article class="card visualization-card">
-        <h3 id="visualization-routes">Route rows</h3>
-        <video controls preload="metadata" playsinline aria-labelledby="visualization-routes">
-          <source src="../Alpha/images/route%20rows.mp4" type="video/mp4">
-          Your browser does not support embedded videos.
-        </video>
+        <h3 id="visualization-schedules">Schedules</h3>
+        <p>Select a direction and required departure stop to view schedule information; an optional destination or date can further refine the results.</p>
       </article>
       <article class="card visualization-card">
-        <h3 id="visualization-trip">Plan your trip</h3>
-        <video controls preload="metadata" playsinline aria-labelledby="visualization-trip">
-          <source src="../Alpha/images/Plan%20your%20trip.mp4" type="video/mp4">
-          Your browser does not support embedded videos.
-        </video>
+        <h3 id="visualization-alerts">Alerts &amp; Advisories</h3>
+        <p>Open the line’s alerts dialog to review notice statuses, expand advisories, and close the dialog when finished.</p>
       </article>
+      <article class="card visualization-card">
+        <h3 id="visualization-map">Route Map</h3>
+        <p>Explore the transit line with zoom controls, toggle stop visibility, pan to different sections, and access the full system map for detailed route navigation.</p>
+      </article>
+    </div>
+    <h3 style="margin-top:32px">Interaction Demo Video</h3>
+    <div style="background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px;max-width:100%">
+      <video width="100%" height="auto" controls style="border-radius:6px;display:block">
+        <source src="Videos/12.11.2026_12.54.05_REC.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p style="margin:12px 0 0;color:var(--muted);font-size:.95rem">Demo video showing all three interactions in action on the SEPTA schedules interface.</p>
     </div>
   </div>
 </section>
 
 </main>
-<footer><div class="wrap">SEPTA Schedules microinteraction case study: the transportation mode buttons.</div></footer>
+<footer><div class="wrap">SEPTA schedules and alerts microinteraction case study.</div></footer>
 
 
 </body>
