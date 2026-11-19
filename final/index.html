@@ -128,6 +128,79 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
 <div class="wrap" style="padding-top:16px">
   <p>Original interface: <a href="https://www.septa.org/schedules/L1?directionId=0&amp;date=2026-11-12">SEPTA Market-Frankford Line schedules</a></p>
 </div>
+<section id="demo">
+  <div class="wrap">
+    <h2>Working interactions</h2>
+    <p class="q">The three interactions from sections 1–4, built to follow their rules. Stop names, times, and notices are sample data for this prototype.</p>
+    <div class="demo-stack">
+      <article class="demo-panel">
+        <h3>Interaction 1: Schedules selection form</h3>
+        <p class="hint">Pick a direction, then a departure stop. Destination and date refine the results.</p>
+        <span class="lbl" id="dir-label">Direction</span>
+        <div class="radio-row" role="radiogroup" aria-labelledby="dir-label" id="sched-directions">
+          <button type="button" class="choice" role="radio" aria-checked="false" data-dir="eastbound">Eastbound</button>
+          <button type="button" class="choice" role="radio" aria-checked="false" data-dir="westbound">Westbound</button>
+        </div>
+        <div class="field-row">
+          <div>
+            <span class="lbl">Departure <span class="opt">(required)</span></span>
+            <button type="button" class="stop-btn" id="sched-from" disabled>Select a stop</button>
+          </div>
+          <div>
+            <span class="lbl">Destination <span class="opt">(optional)</span></span>
+            <button type="button" class="stop-btn" id="sched-to" disabled>Select a stop</button>
+          </div>
+          <div>
+            <label class="lbl" for="sched-date">Date</label>
+            <input type="date" id="sched-date">
+          </div>
+        </div>
+        <div class="results" id="sched-results" aria-live="polite"></div>
+      </article>
+
+      <article class="demo-panel">
+        <h3>Interaction 2: Alerts &amp; Advisories</h3>
+        <p class="hint">Opens the notices for the Market–Frankford Line (L1).</p>
+        <button type="button" class="btn-primary" id="open-alerts" aria-haspopup="dialog">Alerts &amp; Advisories</button>
+      </article>
+
+      <article class="demo-panel">
+        <h3>Interaction 3: Route Map Navigation</h3>
+        <p class="hint">Schematic of the L1 line, not to scale. When zoomed in, drag the map to pan.</p>
+        <div id="map-main"></div>
+      </article>
+    </div>
+
+    <dialog id="stop-dialog" aria-labelledby="stop-dialog-title">
+      <div class="dlg-head">
+        <div><h3 id="stop-dialog-title">Departure stop</h3><p id="stop-dialog-sub"></p></div>
+        <button type="button" class="btn-ghost" data-close>Close</button>
+      </div>
+      <div class="dlg-body">
+        <input type="search" id="stop-search" placeholder="Search stops" aria-label="Search stops">
+        <ul class="stop-list" id="stop-list"></ul>
+      </div>
+      <div class="dlg-foot"><button type="button" class="btn-ghost" id="stop-clear" hidden>Clear destination</button></div>
+    </dialog>
+
+    <dialog id="alerts-dialog" aria-labelledby="alerts-title">
+      <div class="dlg-head">
+        <div><h3 id="alerts-title">Alerts &amp; Advisories</h3><p>Market–Frankford Line (L1) · sample notices</p></div>
+        <button type="button" class="btn-ghost" data-close>Close</button>
+      </div>
+      <div class="dlg-body" id="alerts-list"></div>
+    </dialog>
+
+    <dialog id="map-dialog" class="map-dialog" aria-labelledby="map-dialog-title">
+      <div class="dlg-head">
+        <div><h3 id="map-dialog-title">System Map</h3><p>Market–Frankford Line (L1) · schematic</p></div>
+        <button type="button" class="btn-ghost" data-close>Close</button>
+      </div>
+      <div class="dlg-body" id="map-dialog-body"></div>
+    </dialog>
+  </div>
+</section>
+
 <section id="triggers">
   <div class="wrap">
     <h2>1. Triggers</h2>
@@ -232,79 +305,6 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
     <div class="grid">
       <div class="card"><p>The map has several repeating interaction loops: zoom in and out using the +/− buttons to adjust detail level; toggle the Stops visibility on and off to show or hide stop markers; pan by dragging to reposition the view while maintaining zoom; and transition to the full system map by clicking "Open System Map." The zoom level persists during the session, and the Stops toggle state is maintained as the user interacts with the map. Users can repeat these actions in any order to explore the route.</p></div>
     </div>
-  </div>
-</section>
-
-<section id="demo">
-  <div class="wrap">
-    <h2>5. Working interactions</h2>
-    <p class="q">The three interactions from sections 1–4, built to follow their rules. Stop names, times, and notices are sample data for this prototype.</p>
-    <div class="demo-stack">
-      <article class="demo-panel">
-        <h3>Interaction 1: Schedules selection form</h3>
-        <p class="hint">Pick a direction, then a departure stop. Destination and date refine the results.</p>
-        <span class="lbl" id="dir-label">Direction</span>
-        <div class="radio-row" role="radiogroup" aria-labelledby="dir-label" id="sched-directions">
-          <button type="button" class="choice" role="radio" aria-checked="false" data-dir="eastbound">Eastbound</button>
-          <button type="button" class="choice" role="radio" aria-checked="false" data-dir="westbound">Westbound</button>
-        </div>
-        <div class="field-row">
-          <div>
-            <span class="lbl">Departure <span class="opt">(required)</span></span>
-            <button type="button" class="stop-btn" id="sched-from" disabled>Select a stop</button>
-          </div>
-          <div>
-            <span class="lbl">Destination <span class="opt">(optional)</span></span>
-            <button type="button" class="stop-btn" id="sched-to" disabled>Select a stop</button>
-          </div>
-          <div>
-            <label class="lbl" for="sched-date">Date</label>
-            <input type="date" id="sched-date">
-          </div>
-        </div>
-        <div class="results" id="sched-results" aria-live="polite"></div>
-      </article>
-
-      <article class="demo-panel">
-        <h3>Interaction 2: Alerts &amp; Advisories</h3>
-        <p class="hint">Opens the notices for the Market–Frankford Line (L1).</p>
-        <button type="button" class="btn-primary" id="open-alerts" aria-haspopup="dialog">Alerts &amp; Advisories</button>
-      </article>
-
-      <article class="demo-panel">
-        <h3>Interaction 3: Route Map Navigation</h3>
-        <p class="hint">Schematic of the L1 line, not to scale. When zoomed in, drag the map to pan.</p>
-        <div id="map-main"></div>
-      </article>
-    </div>
-
-    <dialog id="stop-dialog" aria-labelledby="stop-dialog-title">
-      <div class="dlg-head">
-        <div><h3 id="stop-dialog-title">Departure stop</h3><p id="stop-dialog-sub"></p></div>
-        <button type="button" class="btn-ghost" data-close>Close</button>
-      </div>
-      <div class="dlg-body">
-        <input type="search" id="stop-search" placeholder="Search stops" aria-label="Search stops">
-        <ul class="stop-list" id="stop-list"></ul>
-      </div>
-      <div class="dlg-foot"><button type="button" class="btn-ghost" id="stop-clear" hidden>Clear destination</button></div>
-    </dialog>
-
-    <dialog id="alerts-dialog" aria-labelledby="alerts-title">
-      <div class="dlg-head">
-        <div><h3 id="alerts-title">Alerts &amp; Advisories</h3><p>Market–Frankford Line (L1) · sample notices</p></div>
-        <button type="button" class="btn-ghost" data-close>Close</button>
-      </div>
-      <div class="dlg-body" id="alerts-list"></div>
-    </dialog>
-
-    <dialog id="map-dialog" class="map-dialog" aria-labelledby="map-dialog-title">
-      <div class="dlg-head">
-        <div><h3 id="map-dialog-title">System Map</h3><p>Market–Frankford Line (L1) · schematic</p></div>
-        <button type="button" class="btn-ghost" data-close>Close</button>
-      </div>
-      <div class="dlg-body" id="map-dialog-body"></div>
-    </dialog>
   </div>
 </section>
 
