@@ -166,7 +166,7 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
 
       <article class="demo-panel">
         <h3>Interaction 3: Route Map Navigation</h3>
-        <p class="hint">Schematic of the L1 line, not to scale. When zoomed in, drag the map to pan.</p>
+        <p class="hint">Schematic of the L1 line, not to scale. Zoom with the +/− buttons, Ctrl/⌘ + or Ctrl/⌘ −, or trackpad pinch while pointing at the map. When zoomed in, drag the map to pan.</p>
         <div id="map-main"></div>
       </article>
     </div>
@@ -245,7 +245,7 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
     <h3 style="margin-top:28px">Interaction 3: Route Map Navigation</h3>
     <div class="grid">
       <div class="card">
-        <p><strong>Zoom controls:</strong> a plus (+) button zooms in to show more detail of the transit line and surrounding areas, while a minus (−) button zooms out to show a broader view of the route and context. Each click on these buttons increments or decrements the map zoom level by one step.</p>
+        <p><strong>Zoom controls:</strong> a plus (+) button zooms in to show more detail of the transit line and surrounding areas, while a minus (−) button zooms out to show a broader view of the route and context. Each click on these buttons increments or decrements the map zoom level by one step. While the pointer is over the map, Ctrl/⌘ + and Ctrl/⌘ − or a trackpad pinch also zoom the map, anchored at the pointer position.</p>
         <p><strong>Stops toggle:</strong> an OFF/ON toggle switch labeled "Stops" controls the visibility of individual transit stops along the route. When toggled OFF, the map displays only the transit line corridor. When toggled ON, individual stop markers appear along the line, allowing users to see precise stop locations.</p>
         <p><strong>Pan and drag:</strong> users can click and drag on the map to pan and reposition the view. This allows exploring different sections of the route while maintaining the current zoom level.</p>
         <p><strong>Open in full map:</strong> a green button labeled "Open System Map" at the bottom of the map card opens a full-screen or expanded map view in a new context, providing a more detailed interactive experience for route exploration and stop selection.</p>
@@ -356,6 +356,7 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
     { type: 'Advisory', status: 'Past', summary: 'Elevator out of service at Spring Garden station.', details: 'The elevator has been restored. This resolved notice is kept for reference.' }
   ];
   var MAP_W = 900, MAP_H = 360, SCALES = [1, 1.5, 2, 2.5, 3];
+  var activeMap = null;
   var SEGMENT_MINUTES = 2, FIRST_TRIP = 300, LAST_TRIP = 1470, HEADWAY = 8;
 
   function $(id) { return document.getElementById(id); }
@@ -512,6 +513,15 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
   $('open-alerts').addEventListener('click', function () { $('alerts-dialog').showModal(); });
 
   /* Interaction 3: route map navigation */
+  /* Ctrl/⌘ + and − zoom the map under the pointer instead of the browser page. */
+  document.addEventListener('keydown', function (e) {
+    if (!activeMap || !activeMap.svg.isConnected || !(e.ctrlKey || e.metaKey)) return;
+    if (e.key === '+' || e.key === '=') activeMap.zoomStep(1);
+    else if (e.key === '-' || e.key === '_') activeMap.zoomStep(-1);
+    else return;
+    e.preventDefault();
+  });
+
   function createMap(container, options) {
     var isDialog = Boolean(options && options.dialog);
     var n = STOPS.length, points = [], stopMarkup = '';
@@ -540,34 +550,51 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
     var zoomOut = container.querySelector('[data-act="out"]');
     var toggle = container.querySelector('.switch');
     var toggleState = container.querySelector('.sw-state');
-    var level = 0, tx = 0, ty = 0, drag = null;
+    var minScale = SCALES[0], maxScale = SCALES[SCALES.length - 1];
+    var scale = minScale, tx = 0, ty = 0, drag = null;
 
     function render() {
-      var s = SCALES[level];
-      tx = clamp(tx, MAP_W * (1 - s), 0);
-      ty = clamp(ty, MAP_H * (1 - s), 0);
-      viewport.setAttribute('transform', 'translate(' + tx + ' ' + ty + ') scale(' + s + ')');
-      readout.textContent = Math.round(s * 100) + '%';
-      zoomIn.disabled = level === SCALES.length - 1;
-      zoomOut.disabled = level === 0;
+      tx = clamp(tx, MAP_W * (1 - scale), 0);
+      ty = clamp(ty, MAP_H * (1 - scale), 0);
+      viewport.setAttribute('transform', 'translate(' + tx + ' ' + ty + ') scale(' + scale + ')');
+      readout.textContent = Math.round(scale * 100) + '%';
+      zoomIn.disabled = scale >= maxScale;
+      zoomOut.disabled = scale <= minScale;
     }
-    function zoomBy(step) {
-      var next = clamp(level + step, 0, SCALES.length - 1);
-      if (next === level) return;
-      var s0 = SCALES[level], s1 = SCALES[next];
-      var cx = (MAP_W / 2 - tx) / s0, cy = (MAP_H / 2 - ty) / s0;
-      tx = MAP_W / 2 - cx * s1;
-      ty = MAP_H / 2 - cy * s1;
-      level = next;
+    /* Zooms to `next` keeping the point (anchorX, anchorY) in viewBox units fixed on screen. */
+    function zoomTo(next, anchorX, anchorY) {
+      next = clamp(next, minScale, maxScale);
+      if (next === scale) return;
+      var px = (anchorX - tx) / scale, py = (anchorY - ty) / scale;
+      tx = anchorX - px * next;
+      ty = anchorY - py * next;
+      scale = next;
       render();
+    }
+    function zoomStep(dir) {
+      var target = dir > 0
+        ? SCALES.filter(function (s) { return s > scale + 0.001; })[0]
+        : SCALES.filter(function (s) { return s < scale - 0.001; }).pop();
+      if (target != null) zoomTo(target, MAP_W / 2, MAP_H / 2);
     }
     function endDrag() {
       drag = null;
       svg.classList.remove('dragging');
     }
 
-    zoomIn.addEventListener('click', function () { zoomBy(1); });
-    zoomOut.addEventListener('click', function () { zoomBy(-1); });
+    zoomIn.addEventListener('click', function () { zoomStep(1); });
+    zoomOut.addEventListener('click', function () { zoomStep(-1); });
+    /* Trackpad pinch arrives as a wheel event with ctrlKey set. */
+    svg.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey) return;
+      e.preventDefault();
+      var rect = svg.getBoundingClientRect(), k = MAP_W / rect.width;
+      var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+      zoomTo(scale * Math.exp(-dy * 0.01), (e.clientX - rect.left) * k, (e.clientY - rect.top) * k);
+    }, { passive: false });
+    var controller = { svg: svg, zoomStep: zoomStep };
+    svg.addEventListener('pointerenter', function () { activeMap = controller; });
+    svg.addEventListener('pointerleave', function () { if (activeMap === controller) activeMap = null; });
     toggle.addEventListener('click', function () {
       var on = toggle.getAttribute('aria-checked') !== 'true';
       toggle.setAttribute('aria-checked', String(on));
@@ -575,7 +602,7 @@ dialog::backdrop{background:rgba(12,18,36,.55)}
       svg.classList.toggle('stops-off', !on);
     });
     svg.addEventListener('pointerdown', function (e) {
-      if (level === 0) return;
+      if (scale <= minScale) return;
       drag = { x: e.clientX, y: e.clientY, tx: tx, ty: ty };
       svg.setPointerCapture(e.pointerId);
       svg.classList.add('dragging');
